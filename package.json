@@ -16,8 +16,8 @@
     "url": "https://github.com/WillReyess/Proyecto_redes_II/issues"
   },
   "homepage": "https://github.com/WillReyess/Proyecto_redes_II#readme",
-  "description": "",
   "dependencies": {
     "phaser": "^3.88.2"
-  }
+  },
+  "description": ""
 }

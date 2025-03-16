@@ -209,3 +209,15 @@ button:active{
     margin-left: -35px;
     cursor: pointer;
 }
+/*estilo para los mensajes de error*/
+.error {
+    background-color: rgb(39175, 74, 74);
+    color: black;
+    padding: 10px;
+    width: 95%;
+    border-radius: 5px;
+    margin: 20px auto;
+    display: block;
+    text-align: center;  /* Asegura que el texto se vea centrado */
+    display: none;
+}

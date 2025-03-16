@@ -1,3 +1,5 @@
+// Iniciar la sesión
+session_start();
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -43,9 +45,16 @@
                 <button type="submit" name="registrar">Sign Up</button>
             </form>
         </div>
+        
         <div class="sign-in">
             <form action="../controllers/authController.php" method="post">
-                <h1>Sign In</h1>
+            <h1>Sign In</h1>
+            <?php
+                if (isset($_SESSION['error_message'])) {
+                    echo "<p class='error'>" . $_SESSION['error_message'] . "</p>";
+                    unset($_SESSION['error_message']);  // Elimina el mensaje de la sesión después de mostrarlo
+                }
+            ?>
 
                 <!-- contenedor para las redes sociales-->
                 <div class="social-container">

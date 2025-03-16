@@ -1,0 +1,54 @@
+{
+    "anims": [{
+        "key": "tomato_atlas_walk",
+        "type": "frames",
+        "repeat": -1,
+        "frameRate": 12,
+        "frames": [{
+                "key": "tomato_atlas",
+                "frame": "evil_tomato_1.png"
+            },
+            {
+                "key": "tomato_atlas",
+                "frame": "evil_tomato_2.png"
+            },
+            {
+                "key": "tomato_atlas",
+                "frame": "evil_tomato_3.png"
+            },
+            {
+                "key": "tomato_atlas",
+                "frame": "evil_tomato_4.png"
+            },
+            {
+                "key": "tomato_atlas",
+                "frame": "evil_tomato_5.png"
+            },
+            {
+                "key": "tomato_atlas",
+                "frame": "evil_tomato_6.png"
+            },
+            {
+                "key": "tomato_atlas",
+                "frame": "evil_tomato_7.png"
+            },
+            {
+                "key": "tomato_atlas",
+                "frame": "evil_tomato_8.png"
+            }
+        ]
+
+    },
+    {
+        "key": "tomato_atlas_idle",
+        "type": "frames",
+        "repeat": -1,
+        "frames": [
+            {
+                "key": "tomato_atlas",
+                "frame": "evil_tomato_0.png"
+            }
+        ]
+    }
+    ]
+}
