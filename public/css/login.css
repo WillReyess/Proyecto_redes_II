@@ -1,223 +1,266 @@
-*{
-    box-sizing: border-box;
+/* Reset de box-sizing para todos los elementos */
+* {
+    box-sizing: border-box; /* Asegura que el tamaño de los elementos se calcule incluyendo el padding y el borde */
 }
-body{
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    background: #8f64b9;
-    min-height: 100%;
-    margin: 10%;
-}
-.container{
-    position: relative;
-    width: 768px;
-    max-width: 100%;
-    min-height: 480px;
-    background: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25),
-                0 10px 20px rgba(0,0,0,0.22);
 
+body {
+    align-items: center; /* Centra el contenido verticalmente */
+    display: flex; 
+    justify-content: center; /* Centra el contenido horizontalmente */
+    flex-direction: column; /* Organiza los elementos en una columna */
+    background: #8f64b9; /* Color de fondo morado */
+    min-height: 100%; /* Asegura que el cuerpo ocupe todo el alto disponible */
+    margin: 10%; /* Aplica un margen de 10% alrededor del cuerpo */
 }
-.sign-up, .sign-in{
-    position: absolute;
+
+/* Contenedor principal para el formulario */
+.container {
+    position: relative; /* Permite colocar elementos hijos en posiciones absolutas dentro de este contenedor */
+    width: 768px; /* Ancho fijo del contenedor */
+    max-width: 100%; /* Asegura que el contenedor no exceda el ancho de la pantalla */
+    min-height: 480px; /* Establece una altura mínima para el contenedor */
+    background: #fff; /* Color de fondo blanco */
+    border-radius: 10px; /* Bordes redondeados */
+    overflow: hidden; /* Oculta cualquier contenido que sobresalga del contenedor */
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 20px rgba(0,0,0,0.22); /* Agrega sombras para darle profundidad */
+}
+
+/* Estilos para las secciones de Sign Up y Sign In */
+.sign-up, .sign-in {
+    position: absolute; /* Las coloca de manera absoluta dentro del contenedor */
     top: 0;
     left: 0;
     height: 100%;
-    transition: all 0.6s ease-in-out;
+    transition: all 0.6s ease-in-out; /* Transición suave al cambiar de estado */
 }
-.sign-up{
-    width: 50%;
-    opacity: 0;
-    z-index: 1;
-    margin: -10px 0 0 0;
+
+.sign-up {
+    width: 50%; /* Ocupa la mitad del contenedor */
+    opacity: 0; /* Inicialmente invisible */
+    z-index: 1; /* Se coloca debajo del formulario de Sign In */
+    margin: -10px 0 0 0; /* Ajusta el margen superior */
 }
-.sign-in{
-    width: 50%;
-    z-index: 2;
+
+.sign-in {
+    width: 50%; /* Ocupa la mitad del contenedor */
+    z-index: 2; /* Se coloca encima del formulario de Sign Up */
 }
-form{
-    background: #e2d9e7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 50px;
+
+/* Estilos para los formularios */
+form {
+    background: #e2d9e7; /* Color de fondo para el formulario */
+    display: flex; 
+    align-items: center; /* Centra los elementos verticalmente */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    flex-direction: column; /* Organiza los elementos en columna */
+    padding: 0 50px; /* Espaciado interno */
     height: 100%;
-    text-align: center;
+    text-align: center; /* Centra el texto */
 }
-h1{
-    font-weight: 14px;
-    margin: 40px 0 0 0;
+
+/* Estilos para el encabezado (h1) */
+h1 {
+    font-weight: 14px; 
+    margin: 40px 0 0 0; /* Margen superior */
 }
-p{
-    font-size: 14px;
-    font-weight: 100;
-    line-height: 20px;
-    letter-spacing: 0.5px;
-    margin: -5px 0 20px 0;
+
+/* Estilos para los párrafos (p) */
+p {
+    font-size: 14px; /* Tamaño de fuente */
+    font-weight: 100; 
+    line-height: 20px; /* Altura */
+    letter-spacing: 0.5px; /* Espaciado entre letras */
+    margin: -5px 0 20px 0; /* Márgenes alrededor del párrafo */
 }
-/*estilo para los imputs*/
+
+/* Estilo para los inputs de texto */
 input {
-    background: #eee;
-    padding: 12px 15px;
-    margin: 8px 0;
-    width: 100%;
-    border-radius: 5px;
-    border: none;
-    outline: none;
+    background: #eee; /* Fondo gris claro */
+    padding: 12px 15px; /* Espaciado interno */
+    margin: 8px 0; /* Margen superior e inferior */
+    width: 100%; /* Ancho completo */
+    border-radius: 5px; /* Bordes redondeados */
+    border: none; /* Sin borde */
+    outline: none; /* Sin contorno cuando se selecciona */
 }
+
+/* Grupo de inputs (como el contenedor de email y contraseña) */
 .input-group {
-    display: flex;
-    gap: 10px; 
+    display: flex; /* Usa Flexbox para alinear los inputs */
+    gap: 10px; /* Espacio entre los inputs */
     width: 100%;
 }
 
 .input-group input {
-    flex: 1; 
+    flex: 1; /* Los inputs dentro del grupo ocuparán el mismo espacio */
 }
 
-a{
-    color: #333;
-    font-size: 14px;
-    text-decoration: none;
-    margin: 15px 0;
+/* Enlaces dentro del formulario */
+a {
+    color: #333; /* Color de texto gris oscuro */
+    font-size: 14px; /* Tamaño de fuente */
+    text-decoration: none; /* Sin subrayado */
+    margin: 15px 0; /* Márgenes alrededor del enlace */
 }
-button{
-    color: #fff;
-    background: #39034e;
-    font-size: 12px;
-    font-weight: bold;
-    padding: 12px 55px;
-    margin: 20px;
-    border-radius: 20px;
-    border: 1px solid #ff4b2b;
-    outline: none;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: transform 80ms ease-in;
-    cursor: pointer;
+
+/* Estilos para el botón de acción */
+button {
+    color: #fff; /* Texto blanco */
+    background: #39034e; /* Fondo morado oscuro */
+    font-size: 12px; /* Tamaño de fuente */
+    font-weight: bold; /* Fuente en negrita */
+    padding: 12px 55px; /* Espaciado interno */
+    margin: 20px; /* Margen alrededor del botón */
+    border-radius: 20px; /* Bordes redondeados */
+    border: 1px solid #ff4b2b; /* Borde naranja */
+    outline: none; /* Sin contorno */
+    letter-spacing: 1px; /* Espaciado entre letras */
+    text-transform: uppercase; /* Texto en mayúsculas */
+    transition: transform 80ms ease-in; /* Transición para el efecto de clic */
+    cursor: pointer; /* Cambia el cursor al pasar por encima */
 }
-button:active{
-    transform: scale(0.90);
+
+/* Efecto de escala en el botón al hacer clic */
+button:active {
+    transform: scale(0.90); /* Reduce el tamaño del botón ligeramente */
 }
-#signIn, #signUp{
-    background-color: transparent;
-    border: 2px solid #ffffff;
+
+/* Estilos para la superposición de los paneles (derecho e izquierdo) */
+.container.right-panel-active .sign-in {
+    transform: translateX(100%); /* Mueve el panel de inicio de sesión fuera de vista */
 }
-.container.right-panel-active .sign-in{
-    transform: translateX(100%);
+
+.container.right-panel-active .sign-up {
+    transform: translateX(100%); /* Mueve el panel de registro fuera de vista */
+    opacity: 1; /* Hace el panel de registro visible */
+    z-index: 5; /* Asegura que el panel de registro esté encima */
 }
-.container.right-panel-active .sign-up{
-    transform: translateX(100%);
-    opacity: 1;
-    z-index: 5;
-}
-.overlay-container{
-    position: absolute;
+
+/* Contenedor de la capa superior (overlay) */
+.overlay-container {
+    position: absolute; /* Posiciona la capa superior de forma absoluta */
     top: 0;
     left: 50%;
     width: 50%;
     height: 100%;
-    overflow: hidden;
-    transition: transform 0.6s ease-in-out;
-    z-index: 100;
+    overflow: hidden; /* Oculta cualquier contenido que sobresalga */
+    transition: transform 0.6s ease-in-out; /* Transición suave para el movimiento */
+    z-index: 100; /* Asegura que la capa superior esté encima */
 }
-.container.right-panel-active .overlay-container{
-    transform: translateX(-100%);
+
+.container.right-panel-active .overlay-container {
+    transform: translateX(-100%); /* Mueve la capa superior fuera de vista cuando el panel derecho está activo */
 }
-.overlay{
-    position: relative;
-    color: #fff;
-    background: rgb(36, 3, 66);
+
+/* Fondo de la capa superior */
+.overlay {
+    position: relative; /* Posiciona la capa superior de forma relativa */
+    color: #fff; /* Texto blanco */
+    background: rgb(36, 3, 66); /* Fondo morado oscuro */
     left: -100%;
     height: 100%;
     width: 200%;
-    background: linear-gradient(to right, #09023d, #ff228c);
+    background: linear-gradient(to right, #09023d, #ff228c); /* Gradiente de colores morado a rosa */
     transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.6s ease-in-out; /* Transición para el movimiento */
 }
-.container.right-panel-active .overlay{
-    transform: translateX(50%);
+
+/* Movilidad de la  cuando el panel derecho está activo */
+.container.right-panel-active .overlay {
+    transform: translateX(50%); /* Mueve la superposición al centro */
 }
-.overlay-left, .overlay-right{
-    position: absolute;
+
+/* Estilos para las superposiciones izquierda y derecha */
+.overlay-left, .overlay-right {
+    position: absolute; /* Posiciona las superposiciones de forma absoluta */
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 0 40px;
-    text-align: center;
+    align-items: center; /* Centra los elementos verticalmente */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    flex-direction: column; /* Organiza los elementos en columna */
+    padding: 0 40px; /* Espaciado interno */
+    text-align: center; /* Centra el texto */
     top: 0;
     height: 100%;
-    width: 50%;
+    width: 50%; /* La mitad del contenedor */
     transform: translateX(0);
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.6s ease-in-out; /* Transición para el movimiento */
 }
-.overlay-left{
-    transform: translateX(-20%);
+
+/* Estilo para la superposición izquierda */
+.overlay-left {
+    transform: translateX(-20%); /* Mueve la superposición hacia la izquierda */
 }
-.overlay-right{
+
+/* Estilo para la superposición derecha */
+.overlay-right {
     right: 0;
-    transform: translateX(0);
+    transform: translateX(0); /* Mantiene la superposición a la derecha */
 }
-.container.right-panel-active .overlay-left{
-    transform: translateX(0);
+
+/* Estilos cuando el panel derecho está activo */
+.container.right-panel-active .overlay-left {
+    transform: translateX(0); /* Mueve la superposición izquierda a su posición inicial */
 }
-.container.right-panel-active .overlay-right{
-    transform: translateX(20%);
+
+.container.right-panel-active .overlay-right {
+    transform: translateX(20%); /* Mueve la superposición derecha hacia la derecha */
 }
-.social-container{
-    margin: 20px 0;
+
+/* Contenedor de iconos sociales */
+.social-container {
+    margin: 20px 0; /* Márgenes alrededor del contenedor social */
 }
-.social-container a{
-    height: 40px;
-    width: 40px;
-    margin: 0 5px;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid #3d0434;
-    border-radius: 50%;
+
+.social-container a {
+    height: 40px; /* Altura de los iconos */
+    width: 40px; /* Ancho de los iconos */
+    margin: 0 5px; /* Espaciado entre iconos */
+    display: inline-flex; /* Hace que los iconos se alineen en línea */
+    justify-content: center; /* Centra el contenido dentro del icono */
+    align-items: center; /* Centra el contenido verticalmente */
+    border: 1px solid #3d0434; /* Borde oscuro alrededor del icono */
+    border-radius: 50%; /* Iconos redondeados */
 }
-/*estilo para el contenedor de la contraseña en sign in y en sign up*/
-.passContainer, .passConfirmContainer, .signInPassContainer{
-    display: flex;
-    align-items: center;
+
+/* Estilos para los contenedores de contraseñas */
+.passContainer, .passConfirmContainer, .signInPassContainer {
+    display: flex; /* Usa Flexbox para organizar los elementos */
+    align-items: center; /* Centra los elementos verticalmente */
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 5px; /* Márgenes inferiores */
 }
-/*estilo para el icono de la contraseña*/
-.fa-regular{
-    font-size: 1.2rem;
-    margin-left: -35px;
-    cursor: pointer;
+
+/* Estilos para el icono de la contraseña */
+.fa-regular {
+    font-size: 1.2rem; /* Tamaño del icono */
+    margin-left: -35px; /* Ajuste del margen izquierdo */
+    cursor: pointer; /* Cursor de puntero al pasar sobre el icono */
 }
-/*estilo del contenedor del correo*/
-.signUp_email_container, .signIn_Email_Container{
-    display: flex;
-    align-items: center;
+
+/* Estilos para los contenedores de correo electrónico */
+.signUp_email_container, .signIn_Email_Container {
+    display: flex; /* Usa Flexbox para organizar los elementos */
+    align-items: center; /* Centra los elementos verticalmente */
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 5px; /* Márgenes inferiores */
 }
-/*estilo para el icono del correo*/
-.fa-envelope{
-    font-size: 1.2rem;
-    margin-left: -35px;
-    cursor: pointer;
+
+/* Estilos para el icono del correo electrónico */
+.fa-envelope {
+    font-size: 1.2rem; /* Tamaño del icono */
+    margin-left: -35px; /* Ajuste del margen izquierdo */
+    cursor: pointer; /* Cursor de puntero al pasar sobre el icono */
 }
-/*estilo para los mensajes de error*/
+
+/* Estilos para los mensajes de error */
 .error {
-    background-color: rgb(39175, 74, 74);
-    color: black;
-    padding: 10px;
-    width: 95%;
-    border-radius: 5px;
-    margin: 20px auto;
-    display: block;
-    text-align: center;  /* Asegura que el texto se vea centrado */
-    display: none;
+    background-color: rgb(39175, 74, 74); /* Fondo rojo para los mensajes de error */
+    color: black; /* Texto en color negro */
+    padding: 10px; /* Espaciado interno */
+    width: 95%; /* Ancho del mensaje */
+    border-radius: 5px; /* Bordes redondeados */
+    margin: 20px auto; /* Margen superior e inferior */
+    display: block; /* Hace que el mensaje sea un bloque */
+    text-align: center; /* Centra el texto */
+    display: none; /* Inicialmente oculto */
 }

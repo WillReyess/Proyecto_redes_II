@@ -1,0 +1,97 @@
+/* Estilos generales para todos los elementos */
+* {
+    padding: 0; /* Eliminar el padding por defecto */
+    margin: 0; /* Eliminar el margen por defecto */
+    box-sizing: border-box; 
+    font-family: "Poppins", sans-serif; /* Establece la fuente predeterminada para el contenido */
+}
+
+/* Estilos para el body (cuerpo de la página) */
+body {
+    margin: 0; 
+    padding: 0; 
+    background: linear-gradient(to right, #100375, #744704); /* Fondo degradado de izquierda a derecha */
+    display: flex; 
+    align-items: center; /* Centrar el contenido verticalmente */
+    justify-content: center; /* Centrar el contenido horizontalmente */
+    height: 100vh; /* Asegura que el body ocupe toda la altura de la ventana */
+    overflow: hidden; 
+}
+
+/* Contenedor principal de la rueda */
+.wrapper {
+    width: 500px; /* Ancho fijo para el contenedor */
+    background-color: #624042; /* Color de fondo del contenedor */
+    position: absolute; /* Posiciona el contenedor de manera absoluta */
+    transform: translate(-50%, -50%); /* Centra el contenedor tanto horizontal como verticalmente */
+    top: 50%; /* Centra el contenedor en el eje vertical */
+    left: 50%; /* Centra el contenedor en el eje horizontal */
+    padding: 3em; /* Espaciado interno */
+    border-radius: 1em; /* Bordes redondeados */
+}
+
+/* Contenedor de la rueda (gráfico circular) */
+.container {
+    width: 500px; /* Ancho fijo para la rueda */
+    background-color: #ccc; /* Color de fondo de la rueda */
+    border-radius: 50%; /* Hace que el contenedor sea circular */
+    border: 15px solid rgb(152, 152, 239); /* Borde con color azul */
+    position: relative; /* Posición relativa para poder colocar otros elementos dentro */
+    transition: 2s; 
+    margin-left: -37px; /* Desplazamiento a la izquierda para centrar la rueda */
+}
+
+/* Animación de rotación para la rueda */
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg); /* Rotación completa en 360 grados */
+    }
+}
+
+/* Estilo para el botón de giro */
+#spin-btn {
+    position: absolute; /* Posición absoluta para centrar el botón */
+    transform: translate(-50%, -50%); /* Centra el botón en el contenedor */
+    top: 50%; /* Centra el botón verticalmente */
+    left: 50%; /* Centra el botón horizontalmente */
+    height: 26%; /* Tamaño del botón */
+    width: 26%; /* Tamaño del botón */
+    border-radius: 50%; /* Hace el botón redondo */
+    cursor: pointer; /* Cambia el cursor a puntero al pasar sobre el botón */
+    border: 0; /* Elimina el borde por defecto */
+    background: radial-gradient(#fdcf3b 50%, #d88a40 85%); /* Fondo degradado radial */
+    color: #c66e16; /* Color del texto */
+    text-transform: uppercase; /* Transforma el texto a mayúsculas */
+    font-size: 1.8em; /* Tamaño de la fuente */
+    letter-spacing: 0.1em; /* Espaciado entre letras */
+    font-weight: 600; /* Grosor de la fuente */
+}
+
+/* Estilo para la imagen (icono dentro del contenedor) */
+img {
+    position: absolute; /* Posición absoluta para colocar la imagen */
+    width: 8em; /* Tamaño de la imagen */
+    top: 49%; /* Coloca la imagen ligeramente hacia abajo */
+    right: -8%; /* Desplaza la imagen a la derecha */
+}
+
+/* Estilo para el área donde se muestra el valor final */
+#final-value {
+    font-size: 1.5em; /* Tamaño de la fuente */
+    text-align: center; /* Centra el texto */
+    margin-top: 1.5em; /* Espaciado superior */
+    color: #f8f0f0; /* Color del texto */
+    font-weight: 500; /* Grosor de la fuente */
+}
+
+/* Estilos para pantallas pequeñas (como teléfonos móviles) */
+@media screen and (max-width: 768px) {
+    .wrapper {
+        font-size: 12px; /* Reduce el tamaño de la fuente en pantallas pequeñas */
+    }
+
+    /* Ajusta la posición de la imagen en pantallas pequeñas */
+    img {
+        right: -5%; /* Ajuste de la posición de la imagen */
+    }
+}
