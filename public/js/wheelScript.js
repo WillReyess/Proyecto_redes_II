@@ -20,8 +20,8 @@ const data = [15, 15, 15, 15, 15, 15, 15, 15];
 
 // Colores de fondo para cada segmento del gráfico
 var pieColors = [
-  "#8b35bc", "#b163da", "#8b35bc", "#b163da", 
-  "#8b35bc", "#b163da", "#8b35bc", "#b163da",
+  "#91A3B0", "#9B8F79", "#91A3B0", "#9B8F79", 
+  "#91A3B0", "#9B8F79", "#91A3B0", "#9B8F79",
 ];
 
 // Crear el gráfico de tipo "pie" (pastel)
