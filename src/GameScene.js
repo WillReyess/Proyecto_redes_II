@@ -10,8 +10,15 @@ export default class EscenaJuego extends Phaser.Scene {
     }
 
     // Recibimos la meta de puntaje desde la ruleta
-    init(datos) {
-        this.metaPuntaje = datos.targetScore || 1000;
+    init() {
+        // Obtener los datos de los parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const puntos = urlParams.get("puntos");
+    
+        // Usar el valor del parámetro para inicializar el puntaje
+        this.metaPuntaje = puntos || 1000;  // Si no se pasa el parámetro, usar un puntaje predeterminado de 1000
+    
+        console.log("Puntaje inicial: ", this.metaPuntaje); // Verificar que el valor se haya pasado correctamente
     }
 
     // Carga de recursos antes de entrar a la escena
@@ -129,7 +136,10 @@ export default class EscenaJuego extends Phaser.Scene {
 
             if (bala.active) bala.destroy();
         };
+
     }
+
+  
 
     // Se llama en cada frame para actualizar la lógica
     update() {

@@ -1,33 +1,32 @@
 /* Reset de box-sizing para todos los elementos */
 * {
-    box-sizing: border-box; /* Asegura que el tamaño de los elementos se calcule incluyendo el padding y el borde */
+    box-sizing: border-box; 
 }
-
 body {
-    align-items: center; /* Centra el contenido verticalmente */
+    align-items: center; 
     display: flex; 
-    justify-content: center; /* Centra el contenido horizontalmente */
-    flex-direction: column; /* Organiza los elementos en una columna */
-    background: #8f64b9; /* Color de fondo morado */
-    min-height: 100%; /* Asegura que el cuerpo ocupe todo el alto disponible */
-    margin: 10%; /* Aplica un margen de 10% alrededor del cuerpo */
+    justify-content: center; 
+    flex-direction: column; 
+    background: #8f64b9; 
+    min-height: 100%; 
+    margin: 10%; 
 }
 
 /* Contenedor principal para el formulario */
 .container {
-    position: relative; /* Permite colocar elementos hijos en posiciones absolutas dentro de este contenedor */
-    width: 768px; /* Ancho fijo del contenedor */
-    max-width: 100%; /* Asegura que el contenedor no exceda el ancho de la pantalla */
-    min-height: 480px; /* Establece una altura mínima para el contenedor */
-    background: #fff; /* Color de fondo blanco */
-    border-radius: 10px; /* Bordes redondeados */
-    overflow: hidden; /* Oculta cualquier contenido que sobresalga del contenedor */
+    position: relative; 
+    width: 768px; 
+    max-width: 100%; 
+    min-height: 480px; 
+    background: #fff; 
+    border-radius: 10px; 
+    overflow: hidden; 
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 20px rgba(0,0,0,0.22); /* Agrega sombras para darle profundidad */
 }
 
 /* Estilos para las secciones de Sign Up y Sign In */
 .sign-up, .sign-in {
-    position: absolute; /* Las coloca de manera absoluta dentro del contenedor */
+    position: absolute; 
     top: 0;
     left: 0;
     height: 100%;
@@ -48,14 +47,14 @@ body {
 
 /* Estilos para los formularios */
 form {
-    background: #e2d9e7; /* Color de fondo para el formulario */
+    background: #e2d9e7; 
     display: flex; 
-    align-items: center; /* Centra los elementos verticalmente */
-    justify-content: center; /* Centra los elementos horizontalmente */
-    flex-direction: column; /* Organiza los elementos en columna */
-    padding: 0 50px; /* Espaciado interno */
+    align-items: center; 
+    justify-content: center; 
+    flex-direction: column; 
+    padding: 0 50px; 
     height: 100%;
-    text-align: center; /* Centra el texto */
+    text-align: center; 
 }
 
 /* Estilos para el encabezado (h1) */
@@ -66,28 +65,28 @@ h1 {
 
 /* Estilos para los párrafos (p) */
 p {
-    font-size: 14px; /* Tamaño de fuente */
+    font-size: 14px; 
     font-weight: 100; 
-    line-height: 20px; /* Altura */
-    letter-spacing: 0.5px; /* Espaciado entre letras */
-    margin: -5px 0 20px 0; /* Márgenes alrededor del párrafo */
+    line-height: 20px; 
+    letter-spacing: 0.5px; 
+    margin: -5px 0 20px 0; 
 }
 
 /* Estilo para los inputs de texto */
 input {
-    background: #eee; /* Fondo gris claro */
-    padding: 12px 15px; /* Espaciado interno */
-    margin: 8px 0; /* Margen superior e inferior */
-    width: 100%; /* Ancho completo */
-    border-radius: 5px; /* Bordes redondeados */
-    border: none; /* Sin borde */
-    outline: none; /* Sin contorno cuando se selecciona */
+    background: #eee; 
+    padding: 12px 15px; 
+    margin: 8px 0; 
+    width: 100%; 
+    border-radius: 5px;
+    border: none; 
+    outline: none; 
 }
 
 /* Grupo de inputs (como el contenedor de email y contraseña) */
 .input-group {
-    display: flex; /* Usa Flexbox para alinear los inputs */
-    gap: 10px; /* Espacio entre los inputs */
+    display: flex; 
+    gap: 10px; 
     width: 100%;
 }
 
@@ -97,25 +96,25 @@ input {
 
 /* Enlaces dentro del formulario */
 a {
-    color: #333; /* Color de texto gris oscuro */
-    font-size: 14px; /* Tamaño de fuente */
-    text-decoration: none; /* Sin subrayado */
-    margin: 15px 0; /* Márgenes alrededor del enlace */
+    color: #333; 
+    font-size: 14px; 
+    text-decoration: none; 
+    margin: 15px 0; 
 }
 
 /* Estilos para el botón de acción */
 button {
-    color: #fff; /* Texto blanco */
-    background: #39034e; /* Fondo morado oscuro */
-    font-size: 12px; /* Tamaño de fuente */
-    font-weight: bold; /* Fuente en negrita */
-    padding: 12px 55px; /* Espaciado interno */
-    margin: 20px; /* Margen alrededor del botón */
-    border-radius: 20px; /* Bordes redondeados */
-    border: 1px solid #ff4b2b; /* Borde naranja */
-    outline: none; /* Sin contorno */
-    letter-spacing: 1px; /* Espaciado entre letras */
-    text-transform: uppercase; /* Texto en mayúsculas */
+    color: #fff; 
+    background: #39034e; 
+    font-size: 12px; 
+    font-weight: bold; 
+    padding: 12px 55px; 
+    margin: 20px; 
+    border-radius: 20px; 
+    border: 1px solid #ff4b2b; 
+    outline: none; 
+    letter-spacing: 1px; 
+    text-transform: uppercase; 
     transition: transform 80ms ease-in; /* Transición para el efecto de clic */
     cursor: pointer; /* Cambia el cursor al pasar por encima */
 }
@@ -138,7 +137,7 @@ button:active {
 
 /* Contenedor de la capa superior (overlay) */
 .overlay-container {
-    position: absolute; /* Posiciona la capa superior de forma absoluta */
+    position: absolute; 
     top: 0;
     left: 50%;
     width: 50%;
@@ -154,9 +153,9 @@ button:active {
 
 /* Fondo de la capa superior */
 .overlay {
-    position: relative; /* Posiciona la capa superior de forma relativa */
-    color: #fff; /* Texto blanco */
-    background: rgb(36, 3, 66); /* Fondo morado oscuro */
+    position: relative; 
+    color: #fff; 
+    background: rgb(36, 3, 66); 
     left: -100%;
     height: 100%;
     width: 200%;
@@ -165,23 +164,23 @@ button:active {
     transition: transform 0.6s ease-in-out; /* Transición para el movimiento */
 }
 
-/* Movilidad de la  cuando el panel derecho está activo */
+/* Movilidad de la  superposicion cuando el panel derecho está activo */
 .container.right-panel-active .overlay {
     transform: translateX(50%); /* Mueve la superposición al centro */
 }
 
 /* Estilos para las superposiciones izquierda y derecha */
 .overlay-left, .overlay-right {
-    position: absolute; /* Posiciona las superposiciones de forma absoluta */
+    position: absolute; 
     display: flex;
-    align-items: center; /* Centra los elementos verticalmente */
-    justify-content: center; /* Centra los elementos horizontalmente */
-    flex-direction: column; /* Organiza los elementos en columna */
-    padding: 0 40px; /* Espaciado interno */
-    text-align: center; /* Centra el texto */
+    align-items: center; 
+    justify-content: center; 
+    flex-direction: column; 
+    padding: 0 40px; 
+    text-align: center; 
     top: 0;
     height: 100%;
-    width: 50%; /* La mitad del contenedor */
+    width: 50%; 
     transform: translateX(0);
     transition: transform 0.6s ease-in-out; /* Transición para el movimiento */
 }
@@ -208,59 +207,59 @@ button:active {
 
 /* Contenedor de iconos sociales */
 .social-container {
-    margin: 20px 0; /* Márgenes alrededor del contenedor social */
+    margin: 20px 0; 
 }
 
 .social-container a {
-    height: 40px; /* Altura de los iconos */
-    width: 40px; /* Ancho de los iconos */
-    margin: 0 5px; /* Espaciado entre iconos */
-    display: inline-flex; /* Hace que los iconos se alineen en línea */
-    justify-content: center; /* Centra el contenido dentro del icono */
-    align-items: center; /* Centra el contenido verticalmente */
-    border: 1px solid #3d0434; /* Borde oscuro alrededor del icono */
-    border-radius: 50%; /* Iconos redondeados */
+    height: 40px; 
+    width: 40px; 
+    margin: 0 5px; 
+    display: inline-flex; 
+    justify-content: center; 
+    align-items: center; 
+    border: 1px solid #3d0434; 
+    border-radius: 50%; 
 }
 
 /* Estilos para los contenedores de contraseñas */
 .passContainer, .passConfirmContainer, .signInPassContainer {
-    display: flex; /* Usa Flexbox para organizar los elementos */
-    align-items: center; /* Centra los elementos verticalmente */
+    display: flex; 
+    align-items: center; 
     width: 100%;
-    margin-bottom: 5px; /* Márgenes inferiores */
+    margin-bottom: 5px; 
 }
 
 /* Estilos para el icono de la contraseña */
 .fa-regular {
-    font-size: 1.2rem; /* Tamaño del icono */
-    margin-left: -35px; /* Ajuste del margen izquierdo */
-    cursor: pointer; /* Cursor de puntero al pasar sobre el icono */
+    font-size: 1.2rem; 
+    margin-left: -35px; 
+    cursor: pointer; 
 }
 
 /* Estilos para los contenedores de correo electrónico */
 .signUp_email_container, .signIn_Email_Container {
-    display: flex; /* Usa Flexbox para organizar los elementos */
-    align-items: center; /* Centra los elementos verticalmente */
+    display: flex; 
+    align-items: center; 
     width: 100%;
-    margin-bottom: 5px; /* Márgenes inferiores */
+    margin-bottom: 5px; 
 }
 
 /* Estilos para el icono del correo electrónico */
 .fa-envelope {
-    font-size: 1.2rem; /* Tamaño del icono */
-    margin-left: -35px; /* Ajuste del margen izquierdo */
-    cursor: pointer; /* Cursor de puntero al pasar sobre el icono */
+    font-size: 1.2rem; 
+    margin-left: -35px;
+    cursor: pointer; 
 }
 
 /* Estilos para los mensajes de error */
 .error {
-    background-color: rgb(39175, 74, 74); /* Fondo rojo para los mensajes de error */
-    color: black; /* Texto en color negro */
-    padding: 10px; /* Espaciado interno */
-    width: 95%; /* Ancho del mensaje */
-    border-radius: 5px; /* Bordes redondeados */
-    margin: 20px auto; /* Margen superior e inferior */
-    display: block; /* Hace que el mensaje sea un bloque */
-    text-align: center; /* Centra el texto */
-    display: none; /* Inicialmente oculto */
+    background-color: rgb(175, 74, 74); 
+    color: black; 
+    padding: 10px; 
+    width: 95%; 
+    border-radius: 5px; 
+    margin: 20px auto; 
+    display: block; 
+    text-align: center; 
+    display: none; 
 }

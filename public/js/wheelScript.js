@@ -62,10 +62,15 @@ const getMiddleAngle = () => {
 // Función para mostrar el valor basado en el ángulo aleatorio
 const valueGenerator = (angleValue) => {
   for (let i of rotationValues) {
-    // Si el ángulo está dentro de los límites de un segmento, mostrar el valor
     if (angleValue >= i.minDegree && angleValue <= i.maxDegree) {
       finalValue.innerHTML = `<p>Valor: ${i.value}</p>`; // Mostrar el valor en la interfaz
+
       spinBtn.disabled = false; // Habilitar el botón de girar nuevamente
+
+      //redirigir al usuario a la página de juego con el valor como parámetro
+      setTimeout(() => {
+        window.location.href = `../game.html?puntos=${i.value}`;
+      }, 3000);
       break;
     }
   }
