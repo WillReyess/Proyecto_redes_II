@@ -22,7 +22,7 @@ class AuthController {
         $password = password_hash($this->conn->real_escape_string($password), PASSWORD_DEFAULT);
 
         // Insertar los datos del nuevo usuario en la base de datos
-        $query = "INSERT INTO players (Nombre, Apellido, Correo, Contraseña) VALUES ('$name', '$lastName', '$email', '$password')";
+        $query = "INSERT INTO players (Nombre, Apellido, Correo, Password) VALUES ('$name', '$lastName', '$email', '$password')";
 
         if ($this->conn->query($query)) {
             return "Registro exitoso";
@@ -40,7 +40,7 @@ class AuthController {
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             // Verificar la contraseña
-            if (password_verify($password, $user['Contraseña'])) {
+            if (password_verify($password, $user['Password'])) {
                 
                 //redirije al usuario a la pagina principal
                 header("Location: ../views/wheel.php");
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Recibir los datos del formulario de registro
         $name = $_POST['name'];
         $lastName = $_POST['last_name'];
-        $email = $_POST['email'];
+        $email = $_POST['correo'];
         $password = $_POST['password'];
         $confirm_password = $_POST['confirm_password'];
 

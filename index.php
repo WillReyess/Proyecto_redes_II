@@ -7,13 +7,13 @@
     <!-- Carga la fuente y los iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Carga el archivo CSS local para el estilo del login -->
-    <link rel="stylesheet" href="../public/css/login.css">
+    <link rel="stylesheet" href="./public/css/login.css">
 </head>
 <body>
     <div class="container" id="main">
         <!-- Formulario de registro -->
         <div class="sign-up">
-            <form action="../controllers/authController.php" method="post" id="SignUpForm">
+            <form action="./controllers/authController.php" method="post" id="SignUpForm">
                 <h1>Registrarse</h1> <!-- Título del formulario -->
                 
                 <!-- Contenedor para las redes sociales -->
@@ -55,7 +55,7 @@
         
         <!-- Formulario de inicio de sesión -->
         <div class="sign-in">
-            <form action="../controllers/authController.php" method="post">
+            <form action="./controllers/authController.php" method="post">
                 <h1>Inicio de Sesión</h1> <!-- Título del formulario -->
 
                 <?php
@@ -111,6 +111,6 @@
     </div>
 
     <!-- Carga el archivo de JavaScript para la interacción de los formularios -->
-    <script src="../public/js/loginScript.js"></script>
+    <script src="./public/js/loginScript.js"></script>
 </body>
 </html>
