@@ -43,7 +43,7 @@ class AuthController {
             if (password_verify($password, $user['Password'])) {
                 
                 //redirije al usuario a la pagina principal
-                header("Location: ../views/wheel.php");
+                header("Location: ../views/wheel.html");
                 exit();
             } else {
                 header("Location: ../views/login.php?error=Contraseña incorrecta");

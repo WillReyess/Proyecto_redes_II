@@ -83,7 +83,23 @@ img {
     color: #f8f0f0; 
     font-weight: 500; 
 }
-
+/*estilo para las image derecha*/
+.derecha {
+    position: absolute; 
+    right: 0;
+    height: 100%;
+    width: 15%;
+    top: 0;
+}
+/*estilo para la imagen izquierda*/
+.izquierda {
+    position: absolute; 
+    left: 0;
+    height: 100%;
+    width: 15%;
+    top: 0;
+    
+}
 /* Estilos para pantallas pequeñas (como teléfonos móviles) */
 @media screen and (max-width: 768px) {
     .wrapper {
