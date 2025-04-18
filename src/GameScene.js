@@ -63,6 +63,8 @@ export default class EscenaJuego extends Phaser.Scene {
         // Crear al jugador
         this.objetoJugador.crear();
 
+        this.juegoFinalizado = false; // Variable para controlar el estado del juego
+
         // Colisión jugador-suelo
         this.physics.add.collider(this.objetoJugador.sprite, this.objetoFondo.cuerpoSuelo);
 
@@ -158,22 +160,23 @@ export default class EscenaJuego extends Phaser.Scene {
 
     // Revisa si se cumplió la meta o se acabó el tiempo
     revisarFinDelJuego() {
+        if (this.juegoFinalizado) return; // Evitamos múltiples llamadas
         if (this.puntaje >= this.metaPuntaje || this.tiempoRestante <= 0) {
+            this.juegoFinalizado = true; // Marcamos el juego como finalizado
             this.finalizarJuego();
         }
     }
 
-    // Muestra mensaje de victoria/derrota y detiene el juego
     finalizarJuego() {
         // Detenemos el temporizador
         this.eventoTemporizador.remove(false);
-
+    
         let mensaje = (this.puntaje >= this.metaPuntaje) ? "¡Ganaste!" : "Perdiste";
-
+    
         // Coordenadas centradas de la cámara
         const centroX = this.cameras.main.width / 2;
         const centroY = this.cameras.main.height / 2;
-
+    
         // Texto fijo en pantalla
         this.add.text(centroX, centroY, mensaje, {
             font: "80px Arial",
@@ -181,9 +184,40 @@ export default class EscenaJuego extends Phaser.Scene {
         })
         .setOrigin(0.5)
         .setScrollFactor(0); // Para que no se mueva con la cámara
-
+    
         // Pausamos física e inputs
         this.physics.pause();
         this.input.enabled = false;
+    
+        // Calcular el tiempo jugado
+        let tiempoJugado = 60 - this.tiempoRestante; // Tiempo total menos el tiempo restante
+    
+        // Enviar los datos como objeto JSON
+        const datos = {
+            puntaje: this.puntaje,
+            tiempo: tiempoJugado,
+        };
+
+        // Se envían los datos al backend
+        fetch('http://localhost/Proyecto_redes_II/controllers/guardar_puntaje.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos) // Convierte el objeto JS a un objeto JSON
+        })
+        .then(res => res.json()) // Convertimos la respuesta del servidor a JSON
+        .then(respuesta => {
+            // Verificamos la respuesta del servidor
+            if (respuesta.status === 'success') {
+                console.log("Puntaje guardado correctamente:", respuesta.message);
+            } else {
+                console.log("Error al guardar puntaje:", respuesta.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error al enviar los datos:", error);
+        });
     }
+    
 }
