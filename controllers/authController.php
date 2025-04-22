@@ -41,9 +41,13 @@ class AuthController {
             $user = $result->fetch_assoc();
             // Verificar la contraseña
             if (password_verify($password, $user['Password'])) {
-                
+
+                session_start();
+                $_SESSION['user_id'] = $user['player_id']; // se guarda el id para poder usarlo al guardar el puntaje
+
                 //redirije al usuario a la pagina principal
                 header("Location: ../views/wheel.html");
+                //header("Location: ./guardar_puntaje.php");
                 exit();
             } else {
                 header("Location: ../views/login.php?error=Contraseña incorrecta");

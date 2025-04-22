@@ -1,5 +1,6 @@
 <?php
 class Database {
+    // credenciales de la base de datos
     private $host = "localhost";
     private $dbname = "game_users";
     private $username = "root";
