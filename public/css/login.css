@@ -2,15 +2,20 @@
 * {
     box-sizing: border-box; 
 }
+
 body {
-    align-items: center; 
-    display: flex; 
-    justify-content: center; 
-    flex-direction: column; 
-    background: #8f64b9; 
-    min-height: 100%; 
-    margin: 10%; 
-}
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    /*background-image: url('../../assets/lgprueba.png');*/
+    background: linear-gradient( #60a5fa, #2563eb, #1e3a8a);
+    background-repeat: no-repeat;       /* Que no se repita */
+    background-size: cover;             /* Escala para cubrir el área */
+    background-position: center;        /* Centrada */
+    min-height: 100vh;                  /* Altura mínima de la pantalla */
+    margin: 0;                          /* Quita el margen para evitar bordes raros */
+} 
 
 /* Contenedor principal para el formulario */
 .container {
@@ -105,13 +110,13 @@ a {
 /* Estilos para el botón de acción */
 button {
     color: #fff; 
-    background: #39034e; 
+    background: #1e3a8a; 
     font-size: 12px; 
     font-weight: bold; 
     padding: 12px 55px; 
     margin: 20px; 
     border-radius: 20px; 
-    border: 1px solid #ff4b2b; 
+    border: 1px solid #2563eb; 
     outline: none; 
     letter-spacing: 1px; 
     text-transform: uppercase; 
@@ -155,11 +160,9 @@ button:active {
 .overlay {
     position: relative; 
     color: #fff; 
-    background: rgb(36, 3, 66); 
     left: -100%;
     height: 100%;
     width: 200%;
-    background: linear-gradient(to right, #09023d, #ff228c); /* Gradiente de colores morado a rosa */
     transform: translateX(0);
     transition: transform 0.6s ease-in-out; /* Transición para el movimiento */
 }
@@ -170,7 +173,7 @@ button:active {
 }
 
 /* Estilos para las superposiciones izquierda y derecha */
-.overlay-left, .overlay-right {
+.overlay-right {
     position: absolute; 
     display: flex;
     align-items: center; 
@@ -181,20 +184,38 @@ button:active {
     top: 0;
     height: 100%;
     width: 50%; 
+    right: 0;
     transform: translateX(0);
     transition: transform 0.6s ease-in-out; /* Transición para el movimiento */
+    background-image: url('../../assets/UsoLoginN.png'); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Mejora visibilidad del texto */
 }
 
-/* Estilo para la superposición izquierda */
-.overlay-left {
+.overlay-left{
+    position: absolute; 
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    flex-direction: column; 
+    padding: 0 40px; 
+    text-align: center; 
+    top: 0;
+    height: 100%;
+    width: 50%; 
     transform: translateX(-20%); /* Mueve la superposición hacia la izquierda */
+    transition: transform 0.6s ease-in-out; /* Transición para el movimiento */
+    background-image: url('../../assets/UsoLoginN.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Mejora visibilidad del texto */
 }
 
-/* Estilo para la superposición derecha */
-.overlay-right {
-    right: 0;
-    transform: translateX(0); /* Mantiene la superposición a la derecha */
-}
 
 /* Estilos cuando el panel derecho está activo */
 .container.right-panel-active .overlay-left {
