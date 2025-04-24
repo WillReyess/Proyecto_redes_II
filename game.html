@@ -2,18 +2,36 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Juego Shooter - Apuesta y Desafío</title>
   <link rel="stylesheet" href="./public/css/gameSytle.css">
 </head>
 <body>
-  <div id="container"></div>
 
-  <!-- Cargamos Phaser -->
+  <div id="container" style="display: none;"></div> 
+
+  <div id="pantalla-previa">
+    <div class="fondo-previo"></div>
+    
+    <button id="btnPantallaCompleta" type="button">Entrar en pantalla completa</button>
+
+  </div>
+  
+
+  <div id="advertencia-orientacion">
+    <div class = "icono-celular"></div>
+    <p>Por favor, gira tu dispositivo a modo horizontal para jugar.</p>
+  </div>
+
+  <!-- Controles táctiles para móviles (vacío, lo llena la clase ControlesMoviles.js) -->
+  <div id="controles-moviles"></div>
+
+
+  <!-- Phaser -->
   <script src="./node_modules/phaser/dist/phaser.min.js"></script>
 
-  <!-- Luego nuestro código principal -->
+  <!-- Código principal -->
   <script type="module" src="./src/game.js"></script>
 </body>
-</html><!--revisar mas tarde, y cambiarlo a views-->
+</html>

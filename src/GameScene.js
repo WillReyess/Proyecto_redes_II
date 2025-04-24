@@ -3,6 +3,11 @@ import Jugador from './Player.js';
 import Obstaculos from './Obstacles.js';
 import Balas from './Bullets.js';
 import Interfaz from './HUD.js';
+import PlataformaAerea from './PlataformaAerea.js';
+import Bot from './Bot.js';
+import PremioTiempo from './PremioTiempo.js';
+import ControlesMoviles from './ControlesMoviles.js';
+
 
 export default class EscenaJuego extends Phaser.Scene {
     constructor() {
@@ -34,7 +39,7 @@ export default class EscenaJuego extends Phaser.Scene {
         this.load.json('evil_tomato_anim', './assets/evil_tomato_anim.json');
 
         // Creamos instancia de Jugador (más adelante hacemos create())
-        this.objetoJugador = new Jugador(this, 100, 500);
+        //this.objetoJugador = new Jugador(this, 100, 500);
 
         // Plugin de joystick (ejemplo)
         let url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
@@ -47,6 +52,27 @@ export default class EscenaJuego extends Phaser.Scene {
         // Balas
         this.objetoBalas = new Balas(this);
         this.objetoBalas.preCargar();
+
+        // Cargam de la imagen de las plataformas aereas
+        this.load.image('plataforma1', './assets/plataforma1.png');
+
+        // Cargamos la imagen del premio1
+
+        this.load.image('balon', './assets/balon_premio.png');
+
+
+        // Cargamos la imagen del bot
+
+        this.load.image('botSprite', './assets/bot1.png');
+
+
+        //cargamos los sonidos
+        this.load.audio('sonido_disparo', './assets/disparo.wav');
+        this.load.audio('sonido_salto', './assets/salto.wav');
+
+
+
+
     }
 
     // Creación inicial de sprites, físicas, colisiones, etc.
@@ -61,9 +87,14 @@ export default class EscenaJuego extends Phaser.Scene {
         });
 
         // Crear al jugador
+        this.objetoJugador = new Jugador(this, 100, 500);
         this.objetoJugador.crear();
 
         this.juegoFinalizado = false; // Variable para controlar el estado del juego
+        
+        // gestos móviles
+        this.controles = new ControlesMoviles(this, this.objetoJugador);
+
 
         // Colisión jugador-suelo
         this.physics.add.collider(this.objetoJugador.sprite, this.objetoFondo.cuerpoSuelo);
@@ -86,6 +117,110 @@ export default class EscenaJuego extends Phaser.Scene {
             null,
             this
         );
+
+
+
+
+
+
+
+        this.plataformasAereas = this.physics.add.staticGroup();
+
+        const ancho = this.scale.width; // Ancho de la escena
+        const alto = this.scale.height; // Alto de la escena
+        
+        const plataformasNivel = [
+            { x: 0.2, y: 0.85 }, // posición de la plataforma 1
+            { x: 0.45, y: 0.75 },
+            { x: 0.7, y: 0.65 },
+            { x: 0.95, y: 0.55 },
+            { x: 1.20, y: 0.45 },
+
+          ];
+          
+        
+          this.plataformasAereas = this.physics.add.group({
+            immovable: true,
+            allowGravity: false
+          });
+          
+          plataformasNivel.forEach(coord => {
+            const plataforma = new PlataformaAerea(this, ancho * coord.x, alto * coord.y, 'plataforma1');
+            this.plataformasAereas.add(plataforma);
+          });
+
+          // Obtener la plataforma más alta
+        let plataformaMasAlta = this.plataformasAereas.getChildren().reduce((masAlta, actual) =>
+            actual.y < masAlta.y ? actual : masAlta
+        );
+    
+        // Crear el premio encima de la plataforma más alta
+        this.premioTiempo = new PremioTiempo(this, plataformaMasAlta.x, plataformaMasAlta.y - 90); // Ajustar la posición del premio
+        this.premioTiempo.setScale(0.20); // Escalamos el premio para que sea más pequeño  
+
+
+          
+        // colisión con jugador
+        this.physics.add.collider(this.objetoJugador.sprite, this.plataformasAereas);
+        
+        // colisión con balas
+        this.physics.add.collider(
+          this.objetoBalas.grupoBalas,
+          this.plataformasAereas,
+          (bala, plataforma) => {
+            bala.destroy();
+            plataforma.recibirDisparo(); // método de la clase
+          },
+          null,
+          this
+        );
+
+
+            // Grupo de bots con preUpdate automático
+        this.bots = this.physics.add.group({ runChildUpdate: true });
+
+            // Creacion algunos bots en posiciones fijas
+        const botPositions = [
+            { x: 600, y: 500 },
+            { x: 1200, y: 400 }
+            ];
+            botPositions.forEach(pos => {
+            const bot = new Bot(this, pos.x, pos.y);
+            this.bots.add(bot);
+            });
+
+            // Colisión/overlap bot ↔ jugador
+            this.physics.add.overlap(
+            this.objetoJugador.sprite,
+            this.bots,
+            (jugadorSprite, botSprite) => {
+            // botSprite es instancia de Bot
+               // botSprite.body.stop();  // opcional: frenar al chocar
+                this.jugador.recibirDanio(botSprite.damage);
+            }
+            );
+
+            // (Opcional)  Colisión bala contrabot para que jugador pueda eliminarlos
+            this.physics.add.collider(
+            this.objetoBalas.grupoBalas,
+            this.bots,
+            (bala, bot) => {
+                bala.destroy();
+
+                this.tweens.add({
+                    targets: bot,
+                    alpha: 0,
+                    scale: 2,
+                    duration: 300,
+                    ease: 'Back.easeIn',
+                    onComplete: () => {
+                        bot.destroy();
+                    }
+                });
+            }
+        );
+
+        
 
         // Ajustes de cámara y mundo
         const altoJuego = this.sys.game.config.height;
@@ -139,13 +274,30 @@ export default class EscenaJuego extends Phaser.Scene {
             if (bala.active) bala.destroy();
         };
 
+
+
     }
 
-  
+
+
+    // Callback al impactar una bala con una plataforma aérea
+    _onBulletHitAerial(bala, plat) {
+        bala.destroy();               // destruimos la bala
+        plat.health -= 0.05;          // restamos 5%
+        if (plat.health < 0) plat.health = 0;
+        this._updateHealthBar(plat);  // actualizamos la barra
+    
+        if (plat.health === 0) {
+        // destruimos barra y plataforma
+        plat.healthBar.destroy();
+        plat.destroy();
+        }
+    }
+
 
     // Se llama en cada frame para actualizar la lógica
     update() {
-        this.objetoJugador.actualizar();
+        this.objetoJugador.actualizar();         
         this.objetoFondo.actualizar(this.cameras.main.scrollX);
         this.objetoObstaculos.actualizar();
         this.objetoBalas.actualizar();

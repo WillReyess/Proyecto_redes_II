@@ -1,15 +1,115 @@
-body {
+/* public/css/gameSytle.css */
+
+/* Reinicio básico */
+html, body {
     margin: 0;
     padding: 0;
-    background-color: #000;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+  }
+  
+  /* Contenedor del juego (oculto por defecto) */
+  #container {
+    display: none;
+    width: 100%;
     height: 100%;
+  }
+
+  .fondo-previo {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('../assets/fondo_juego0.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: -1;
+  }
+  
+  
+  #btnPantallaCompleta {
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+
+  #pantalla-previa {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 998;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.8); /* fondo oscuro por si la imagen no carga */
+  }
+  
+
+
+  
+  /* Advertencia de orientación para móviles */
+#advertencia-orientacion {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  color: #fff;
+  font-size: 20px;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
 }
-#container {
-    width: 800px;
-    height: 800px;
-    background-color: #111;
-    position: relative;
+
+#advertencia-orientacion .icono-celular {
+  width: 80px;
+  height: 120px;
+  border: 4px solid white;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  position: relative;
+  animation: girarCelular 1.5s ease-in-out infinite;
 }
+
+#advertencia-orientacion .icono-celular::before {
+  content: "";
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 4px;
+  background: white;
+  border-radius: 10px;
+}
+
+@keyframes girarCelular {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(40deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(-40deg); }
+  100% { transform: rotate(0deg); }
+}
+
+
+#btn-izquierda { bottom: 20px; left: 20px; }
+#btn-derecha { bottom: 20px; left: 100px; }
+#btn-salto { bottom: 100px; right: 100px; }
+#btn-disparo { bottom: 20px; right: 20px; }
+
