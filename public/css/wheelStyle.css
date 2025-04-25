@@ -87,7 +87,7 @@ img {
 .derecha {
     position: absolute; 
     right: 0;
-    height: 100%;
+    height: 75%;
     width: 15%;
     top: 0;
 }
@@ -95,7 +95,7 @@ img {
 .izquierda {
     position: absolute; 
     left: 0;
-    height: 100%;
+    height: 75%;
     width: 15%;
     top: 0;
     

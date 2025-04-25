@@ -1,0 +1,76 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f2f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.maincontainer {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+h2 {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+.codigo {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.codigo input {
+    width: 40px;
+    height: 50px;
+    text-align: center;
+    font-size: 24px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    transition: border 0.3s;
+}
+
+.codigo input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button#reenviar {
+    background-color: #6c757d;
+}
+
+button#volver {
+    background-color: #dc3545;
+}
+
+button:hover {
+    opacity: 0.9;
+}

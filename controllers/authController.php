@@ -25,7 +25,7 @@ class AuthController {
         $query = "INSERT INTO players (Nombre, Apellido, Correo, Password) VALUES ('$name', '$lastName', '$email', '$password')";
 
         if ($this->conn->query($query)) {
-            return "Registro exitoso";
+            header("Location: http://localhost/Proyecto_redes_II/views/verification.html");
         } else {
             return "Error al registrar usuario: " . $this->conn->error;
         }
@@ -46,15 +46,15 @@ class AuthController {
                 $_SESSION['user_id'] = $user['player_id']; // se guarda el id para poder usarlo al guardar el puntaje
 
                 //redirije al usuario a la pagina principal
-                header("Location: ../views/wheel.html");
+                header("Location: http://localhost/Proyecto_redes_II/views/wheel.html");
                 //header("Location: ./guardar_puntaje.php");
                 exit();
             } else {
-                header("Location: ../views/login.php?error=Contraseña incorrecta");
+                header("Location: http://localhost/Proyecto_redes_II/views/login.php?error=Contraseña incorrecta");
                 exit();
             }
         } else {
-            header("Location: ../views/login.php?error=Usuario no encontrado");
+            header("Location: http://localhost/Proyecto_redes_II/views/login.php?error=Usuario no encontrado");
             exit(); 
         }
     }

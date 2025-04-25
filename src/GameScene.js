@@ -65,14 +65,9 @@ export default class EscenaJuego extends Phaser.Scene {
 
         this.load.image('botSprite', './assets/bot1.png');
 
-
         //cargamos los sonidos
         this.load.audio('sonido_disparo', './assets/disparo.wav');
         this.load.audio('sonido_salto', './assets/salto.wav');
-
-
-
-
     }
 
     // Creación inicial de sprites, físicas, colisiones, etc.
@@ -118,12 +113,6 @@ export default class EscenaJuego extends Phaser.Scene {
             this
         );
 
-
-
-
-
-
-
         this.plataformasAereas = this.physics.add.staticGroup();
 
         const ancho = this.scale.width; // Ancho de la escena
@@ -159,7 +148,6 @@ export default class EscenaJuego extends Phaser.Scene {
         this.premioTiempo.setScale(0.20); // Escalamos el premio para que sea más pequeño  
 
 
-          
         // colisión con jugador
         this.physics.add.collider(this.objetoJugador.sprite, this.plataformasAereas);
         
@@ -220,8 +208,6 @@ export default class EscenaJuego extends Phaser.Scene {
             }
         );
 
-        
-
         // Ajustes de cámara y mundo
         const altoJuego = this.sys.game.config.height;
         this.cameras.main.setBounds(0, 0, Number.MAX_SAFE_INTEGER, altoJuego);
@@ -274,11 +260,7 @@ export default class EscenaJuego extends Phaser.Scene {
             if (bala.active) bala.destroy();
         };
 
-
-
     }
-
-
 
     // Callback al impactar una bala con una plataforma aérea
     _onBulletHitAerial(bala, plat) {
