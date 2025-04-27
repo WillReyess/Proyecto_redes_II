@@ -305,7 +305,7 @@ export default class EscenaJuego extends Phaser.Scene {
         // Detenemos el temporizador
         this.eventoTemporizador.remove(false);
     
-        let mensaje = (this.puntaje >= this.metaPuntaje) ? "¡Ganaste!" : "Perdiste";
+        let mensaje = (this.puntaje >= this.metaPuntaje) ? "You Win!" : "Game Over!";
     
         // Coordenadas centradas de la cámara
         const centroX = this.cameras.main.width / 2;
@@ -322,6 +322,10 @@ export default class EscenaJuego extends Phaser.Scene {
         // Pausamos física e inputs
         this.physics.pause();
         this.input.enabled = false;
+
+        this.time.delayedCall(3000, () => {
+            window.location.href = "http://localhost/Proyecto_redes_II/views/wheel.html"; // Redirigir a la ruleta
+        });
     
         // Calcular el tiempo jugado
         let tiempoJugado = 60 - this.tiempoRestante; // Tiempo total menos el tiempo restante

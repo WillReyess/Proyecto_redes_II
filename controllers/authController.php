@@ -46,7 +46,7 @@ class AuthController {
                 $_SESSION['user_id'] = $user['player_id']; // se guarda el id para poder usarlo al guardar el puntaje
 
                 //redirije al usuario a la pagina principal
-                header("Location: http://localhost/Proyecto_redes_II/views/wheel.html");
+                header("Location: http://localhost/royecto_redes_II/views/wheel.html");
                 //header("Location: ./guardar_puntaje.php");
                 exit();
             } else {
@@ -57,6 +57,14 @@ class AuthController {
             header("Location: http://localhost/Proyecto_redes_II/views/login.php?error=Usuario no encontrado");
             exit(); 
         }
+    }
+    //medoto para cerrar sesion
+    public function logout() {
+        session_start();
+        session_unset(); // Elimina todas las variables de sesión
+        session_destroy(); // Destruye la sesión
+        header("Location: http://localhost/Proyecto_redes_II/index.php"); // Redirige al usuario a la página de login
+        exit();
     }
 }
 
@@ -84,5 +92,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $auth->login($email, $password);
         echo $result;
     }
+}elseif (isset($_GET['logout'])) {
+    // Crear instancia de AuthController y llamar al método logout
+    $auth = new AuthController();
+    $auth->logout();
 }
 ?>
