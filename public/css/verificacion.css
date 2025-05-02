@@ -1,6 +1,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f2f4f8;
+    background: url(http://localhost/Proyecto_redes_II/assets/autenticacion.png) center /cover;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,16 +17,17 @@ body {
     width: 90%;
     max-width: 500px;
     text-align: center;
+    background-color: #fff5;
 }
 
 h1 {
     margin-bottom: 10px;
-    color: #333;
+    color: black;
 }
 
 h2 {
     font-size: 16px;
-    color: #555;
+    color: black;
     margin-bottom: 25px;
 }
 
@@ -64,7 +66,7 @@ button {
 }
 
 button#reenviar {
-    background-color: #6c757d;
+    background-color: #082845;
 }
 
 button#volver {
@@ -72,5 +74,5 @@ button#volver {
 }
 
 button:hover {
-    opacity: 0.9;
+    opacity: 0.4;
 }

@@ -2,11 +2,17 @@ export default class Jugador {
     constructor(escena, xInicial, yInicial) {
         this.escena = escena;
 
+        this.proporcionPantalla = 0.08; // Proporción de la pantalla que ocupará el jugador
+        this.escalaNormal = 1;
+
+
         // Velocidad de movimiento horizontal
-        this.velocidad = 200;
+        this.velocidad = this.escena.scale.width * 0.10; // Ajustar el valor numerico para más o menos velocidad
 
         // Potencia de salto (número negativo para ir hacia arriba)
-        this.fuerzaSalto = -300;
+        // Potencia de salto (proporcional a la altura de pantalla)
+        this.fuerzaSalto = -(this.escena.scale.height * 0.55); // Ajustar el valor numerico para más o menos fuerza
+
 
         // Guardamos coords iniciales (por si se necesitan)
         this.xInicial = xInicial;
@@ -22,7 +28,13 @@ export default class Jugador {
     // Crear el sprite del jugador y configurar inputs
     crear() {
         // Creamos el sprite y aumentamos su tamaño para que se vea grande
-        this.sprite = this.escena.physics.add.sprite(this.xInicial, this.yInicial, 'tomato_atlas').setScale(4);
+       // this.sprite = this.escena.physics.add.sprite(this.xInicial, this.yInicial, 'tomato_atlas').setScale(4); codigo inicial modificado
+
+        this.sprite = this.escena.physics.add.sprite(this.xInicial, this.yInicial, 'tomato_atlas');
+
+        const altoDeseado   = this.escena.scale.height * this.proporcionPantalla;
+        this.escalaNormal   = altoDeseado / this.sprite.height;
+        this.sprite.setScale(this.escalaNormal);
 
         // Crear el texto con el nombre flotante
         this.nombreTexto = this.escena.add.text(this.sprite.x, this.sprite.y, 'Ing. Daro', {
@@ -58,8 +70,20 @@ export default class Jugador {
         // dibujo de barra de salud inicial
 
         this._dibujarBarraVida();
-        
+
+        // Ajustar la posición del jugador al cambiar el tamaño de la pantalla
+        this.escena.scale.on('resize', this.ajustarPosicion, this);
+
     }
+
+        ajustarPosicion() {
+            const centerX = this.escena.cameras.main.centerX;
+            const centerY = this.escena.cameras.main.centerY;
+            this.sprite.setPosition(centerX, centerY);
+            this.nombreTexto.setPosition(centerX, centerY - this.sprite.displayHeight / 2 - 10);  // Ajustar la posición del nombre
+        }
+        
+    
 
     // Actualizamos posición, animaciones y disparo
     actualizar() {
@@ -83,7 +107,7 @@ export default class Jugador {
             this.sprite.anims.stop();
         }
 
-        // Salto si está en el suelo y presionamos arriba
+        // Salto si está en una superficie y presionamos arriba
         if ((this.cursores.up.isDown) && (this.sprite.body.touching.down || this.sprite.body.blocked.down)) {
             this.sprite.setVelocityY(this.fuerzaSalto);
             this.sonidoSalto.play(); // Reproducir sonido de salto con la accion del jugador
@@ -93,8 +117,10 @@ export default class Jugador {
         // Si se presiona abajo, cambiamos scale para "agacharse"
         if (this.cursores.down.isDown) {
             this.sprite.setScale(4, 2);
+            this.sprite.setScale(this.escalaNormal, this.escalaNormal * 0.5)
         } else {
             this.sprite.setScale(3, 3);
+            this.sprite.setScale(this.escalaNormal);
         }
 
         // Disparo con la tecla SPACE

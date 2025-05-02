@@ -25,7 +25,10 @@ class AuthController {
         $query = "INSERT INTO players (Nombre, Apellido, Correo, Password) VALUES ('$name', '$lastName', '$email', '$password')";
 
         if ($this->conn->query($query)) {
-            header("Location: http://localhost/Proyecto_redes_II/views/verification.html");
+            session_start();
+            $_SESSION['Correo'] = $email; // Guardar el correo en la sesión para usarlo en la verificación
+            header("Location: http://localhost/proyecto_redes_II/views/verification.php");
+            exit();
         } else {
             return "Error al registrar usuario: " . $this->conn->error;
         }
@@ -44,10 +47,10 @@ class AuthController {
 
                 session_start();
                 $_SESSION['user_id'] = $user['player_id']; // se guarda el id para poder usarlo al guardar el puntaje
-
+            
                 //redirije al usuario a la pagina principal
                 header("Location: http://localhost/proyecto_redes_II/views/wheel.html");
-                //header("Location: ./guardar_puntaje.php");
+                
                 exit();
             } else {
                 header("Location: http://localhost/Proyecto_redes_II/views/login.php?error=Contraseña incorrecta");
@@ -58,6 +61,7 @@ class AuthController {
             exit(); 
         }
     }
+    
     //medoto para cerrar sesion
     public function logout() {
         session_start();
@@ -66,6 +70,18 @@ class AuthController {
         header("Location: http://localhost/Proyecto_redes_II/index.php"); // Redirige al usuario a la página de login
         exit();
     }
+}
+
+///funcion para enmascarar el correo
+function enmascararCorreo($correo) {
+    //se calcula la posicion del @
+    $posArroba = strpos($correo, '@');
+    if ($posArroba !== false) {
+        $primerasDosLetras = substr($correo, 0, 2); // Primeras dos letras
+        $dominio = substr($correo, $posArroba); // Dominio completo
+        return $primerasDosLetras . '*****' . $dominio; // Enmascarar el resto
+    }
+    return $correo; // Si no se encuentra el @, devolver el correo original
 }
 
 // Verificar si se ha enviado el formulario de registro o login
