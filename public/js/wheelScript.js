@@ -69,7 +69,7 @@ const valueGenerator = (angleValue) => {
 
       //redirigir al usuario a la página de juego con el valor como parámetro
       setTimeout(() => {
-        window.location.href = `http://localhost/Proyecto_redes_II/game.html?puntos=${i.value}`;
+        window.location.href = `./game.html?puntos=${i.value}`;
       }, 3000);
       break;
     }
