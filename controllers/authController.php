@@ -31,7 +31,7 @@ class AuthController {
             $_SESSION['Nombre'] = $name; // Guardar el nombre en la sesión para enviar el correo de activación
             $_SESSION['Apellido'] = $lastName; // Guardar el apellido en la sesión para eviar el correo de activación
 
-            header("Location: http://localhost/proyecto_redes_II/views/verification.php");
+            header("Location: ../views/verification.php");
             exit();
         } else {
             return "Error al registrar usuario: " . $this->conn->error;
@@ -71,7 +71,7 @@ class AuthController {
         session_start();
         session_unset(); // Elimina todas las variables de sesión
         session_destroy(); // Destruye la sesión
-        header("Location: http://localhost/Proyecto_redes_II/index.php"); // Redirige al usuario a la página de login
+        header("Location: ../index.php"); // Redirige al usuario a la página de login
         exit();
     }
 }
