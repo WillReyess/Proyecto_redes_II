@@ -26,7 +26,11 @@ class AuthController {
 
         if ($this->conn->query($query)) {
             session_start();
+
             $_SESSION['Correo'] = $email; // Guardar el correo en la sesión para usarlo en la verificación
+            $_SESSION['Nombre'] = $name; // Guardar el nombre en la sesión para enviar el correo de activación
+            $_SESSION['Apellido'] = $lastName; // Guardar el apellido en la sesión para eviar el correo de activación
+
             header("Location: http://localhost/proyecto_redes_II/views/verification.php");
             exit();
         } else {
@@ -49,7 +53,7 @@ class AuthController {
                 $_SESSION['user_id'] = $user['player_id']; // se guarda el id para poder usarlo al guardar el puntaje
             
                 //redirije al usuario a la pagina principal
-                header("Location: http://localhost/proyecto_redes_II/views/wheel.html");
+                header("Location: ../views/wheel.html");
                 
                 exit();
             } else {

@@ -9,7 +9,7 @@ require_once '../controllers/authController.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verificacion</title>
-    <link rel="stylesheet" href="http://localhost/proyecto_redes_II/public/css/verificacion.css">
+    <link rel="stylesheet" href="../public/css/verificacion.css">
 </head>
 <body>
     <div class="maincontainer">
