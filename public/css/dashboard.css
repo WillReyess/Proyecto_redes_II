@@ -1,0 +1,127 @@
+body {
+    font-family: sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.maincontainer {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 900px;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.descripcion {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 1fr 1.5fr;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.descripcion h2 {
+    margin: 0;
+    font-size: 1em;
+    color: #555;
+    font-weight: bold;
+    text-align: left;
+}
+
+.puesto_row {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr 1fr 1.5fr;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    align-items: center;
+}
+
+.puesto_row:last-child {
+    border-bottom: none;
+}
+
+.puesto_row p {
+    margin: 0;
+    font-size: 0.95em;
+    color: #333;
+    text-align: left;
+}
+
+/* Estilos específicos para cada columna */
+.descripcion .puesto,
+.puesto_row .puesto {
+    text-align: center;
+}
+
+.descripcion .puntos,
+.puesto_row .puntos {
+    text-align: center;
+}
+
+.descripcion .tiempo_jugado,
+.puesto_row .tiempo_jugado {
+    text-align: center;
+}
+
+/* Resaltar el primer puesto */
+.puesto_row:first-child {
+    background-color: #f9f9f9;
+    border-left: 5px solid #FFD700; /* Oro */
+    padding-left: 5px;
+}
+
+.puesto_row:nth-child(2) {
+    border-left: 5px solid #C0C0C0; /* Plata */
+    padding-left: 5px;
+}
+
+.puesto_row:nth-child(3) {
+    border-left: 5px solid #CD7F32; /* Bronce */
+    padding-left: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .maincontainer {
+        width: 95%;
+        padding: 20px;
+    }
+
+    .descripcion,
+    .puesto_row {
+        grid-template-columns: 1fr 2fr 2fr 1fr; /* Ocultar tiempo jugado en pantallas más pequeñas */
+    }
+
+    .descripcion .tiempo_jugado,
+    .puesto_row .tiempo_jugado {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .descripcion,
+    .puesto_row {
+        grid-template-columns: 1fr 2fr; /* Ocultar apellido y tiempo jugado */
+    }
+
+    .descripcion .apellido,
+    .puesto_row .apellido,
+    .descripcion .puntos,
+    .puesto_row .puntos {
+        display: none;
+    }
+}

@@ -31,7 +31,7 @@ require_once '../controllers/authController.php';
             <button type="submit" id="volver">Volver</button>
         </form>
     </div>
-    <script src="http://localhost/proyecto_redes_II/public/js/verificacion.js"></script>
+    <script src="../public/js/verificacion.js"></script>
 </body>
 </html>
 

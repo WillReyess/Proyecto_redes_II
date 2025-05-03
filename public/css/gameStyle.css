@@ -20,7 +20,7 @@ html, body {
   top: 0; left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('http://localhost/Proyecto_redes_II/assets/fondo_juego0.jpg') no-repeat center center;
+  background: url('../../assets/fondo_juego0.jpg') no-repeat center center;
   background-size: cover;
   z-index: -1;
 }

@@ -6,7 +6,7 @@ import PlataformaAerea from './PlataformaAerea.js';
 import Bot from './Bot.js';
 import PremioTiempo from './PremioTiempo.js';
 import ControlesMoviles from './ControlesMoviles.js';
-import PremioPuntos from './premioPuntos.js';
+import PremioPuntos from './PremioPuntos.js';
 
 
 export default class EscenaJuego extends Phaser.Scene {

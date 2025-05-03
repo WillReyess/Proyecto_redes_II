@@ -14,8 +14,8 @@ export default class PremioPuntos {
 
     // Carga de sprites de premios
     preCargar() {
-        this.escena.load.image('premioPuntos1', 'http://localhost/Proyecto_redes_II/assets/PremioPuntos1.png');
-        this.escena.load.image('premioPuntos2', 'http://localhost/Proyecto_redes_II/assets/PremioPuntos2.png');
+        this.escena.load.image('premioPuntos1', `http://${location.host}/Proyecto_redes_II/assets/PremioPuntos1.png`);
+        this.escena.load.image('premioPuntos2', `http://${location.host}/Proyecto_redes_II/assets/PremioPuntos2.png`);
     }
 
     // Crear premios iniciales y configurar colisiones
