@@ -1,6 +1,6 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: url(http://localhost/Proyecto_redes_II/assets/autenticacion.png) center /cover;
+    background: url('../../assets/autenticacion.png') center /cover;
 
     display: flex;
     justify-content: center;

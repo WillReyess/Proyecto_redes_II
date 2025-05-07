@@ -29,10 +29,25 @@ class AuthController {
 
             $_SESSION['Correo'] = $email; // Guardar el correo en la sesión para usarlo en la verificación
             $_SESSION['Nombre'] = $name; // Guardar el nombre en la sesión para enviar el correo de activación
-            $_SESSION['Apellido'] = $lastName; // Guardar el apellido en la sesión para eviar el correo de activación
+            $_SESSION['Apellido'] = $lastName; // Guardar el apellido en la sesión para enviar el correo de activación
 
-            header("Location: ../views/verification.php");
-            exit();
+            $codigo = random_int(100000, 999999); // Generar un código de verificación
+            $_SESSION['codigo_verificacion'] = $codigo; // Guardar el código en la sesión
+            $_SESSION['codigo_expiracion'] = time() + 300; // Establecer la expiración del código a 5 minutos
+
+            require_once './mailSender.php';
+
+            // Llamamos a la función que envía el correo
+            $resultadoEnvio = enviarCorreoDeVerificacion($email, $name, $lastName, $codigo);
+
+            if ($resultadoEnvio['status'] === 'success') {
+                // Redirigir a la página de verificación si el correo fue enviado con éxito
+                header("Location: ../views/verification.php");
+                exit();
+            } else {
+                // Mostrar un error si no se pudo enviar el correo
+                return "Error al enviar el correo de verificación: " . $resultadoEnvio['message'];
+            }
         } else {
             return "Error al registrar usuario: " . $this->conn->error;
         }
