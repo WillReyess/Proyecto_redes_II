@@ -11,6 +11,9 @@ function enviarCorreoDeVerificacion($emailUsuario, $nombreUsuario, $apellidoUsua
     try {
         $mail = new PHPMailer(true);
 
+        $mail->setLanguage('es');
+        $mail->CharSet = 'UTF-8';
+
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
