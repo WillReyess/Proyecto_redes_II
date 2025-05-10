@@ -3,49 +3,78 @@ export default class Fondo {
         // Guarda referencia a la escena de Phaser
         this.escena = escena;
 
-        // Este será el cuerpo físico del suelo
+        // Este sera el cuerpo físico del suelo
         this.cuerpoSuelo = null;
     }
 
-    // Cargamos recursos de imágenes
+    // recursos de imagenes
     preCargar() {
         this.escena.load.image('fondo1', './assets/FondoB.png');
         this.escena.load.image('suelo1', './assets/suelo1.png');
     }
 
-    // Aquí se crean los sprites y cuerpos físicos
-    crear() {
-        // Fondo infinito para que se vea "desplazándose"
+    // se crean los sprites y cuerpos físicos
+    crear () {
+        const altoPantalla  = this.escena.scale.height;
+        const anchoPantalla = this.escena.scale.width;
+    
+        // medir la imagen original
+        const texturaFondo  = this.escena.textures.get('fondo1').getSourceImage();
+        const factorEscala  = altoPantalla / texturaFondo.height;   // ajusta solo a la altura
+    
+        // area que se va a cubrir (puede ser tan ancha como la cámara)
         this.imagenFondo = this.escena.add.tileSprite(
-            0,
-            0,
-            4000,
-            this.escena.scale.height,
+            0, 0,
+            anchoPantalla,     // rectángulo a cubrir
+            altoPantalla,
             'fondo1'
-        ).setOrigin(0, 0);
-        this.imagenFondo.setScrollFactor(0);
+        )
+        .setOrigin(0, 0)
+        .setScrollFactor(0);
+    
+        //  Escalar la textura sin distorsionarla
+        this.imagenFondo.tileScaleX = factorEscala;   // mantiene proporción
+        this.imagenFondo.tileScaleY = factorEscala;   // encaja exactamente la altura
+    /*-------------------------------------------------------------------------------------
 
-        // Suelo también como un tileSprite
+        --- suelo ---    
+        /* --------medir la textura del suelo ---------- */
+        const texSuelo    = this.escena.textures.get('suelo1').getSourceImage();
+    
+        /* ---- Elegir como se quiere dimensionar ---------- */
+        // suelo ocupa cierto % de la altura visible
+        const FACTOR_ALTURA = 0.10;              // % de la pantalla
+        const altoSuelo     = altoPantalla * FACTOR_ALTURA;
+        const scaleSuelo    = altoSuelo / texSuelo.height;
+    
+        // mantener la altura original y escalar solo para cubrir el ancho
+        // const scaleSuelo = anchoPantalla / texSuelo.width;
+        // const altoSuelo  = texSuelo.height * scaleSuelo;
+    
+        // crear el tileSprite
         this.suelo = this.escena.add.tileSprite(
             0,
-            this.escena.scale.height - 70,
-            4000,
-            70,
+            altoPantalla - altoSuelo,   // pegado abajo
+            anchoPantalla,              // se amplía solo horizontalmente
+            altoSuelo,
             'suelo1'
-        ).setOrigin(0, 0);
-        this.suelo.setScrollFactor(0);
-
-        // Convertimos el sprite del suelo a un cuerpo estático de Phaser
+        )
+        .setOrigin(0)
+        .setScrollFactor(0);
+    
+        // Escalar el patrón; esto mantiene la textura nítida
+        this.suelo.tileScaleX = scaleSuelo;
+        this.suelo.tileScaleY = scaleSuelo;
+    
+        /* -- Cuerpo fisico ------ */
         this.escena.physics.add.existing(this.suelo, true);
         this.cuerpoSuelo = this.suelo.body;
-        // Ajustamos tamaño y posición del colisionador
-        this.cuerpoSuelo.setSize(999999, 70);
-        this.cuerpoSuelo.setOffset(0, 0);
-    }
+        this.cuerpoSuelo.setSize(Number.MAX_SAFE_INTEGER, altoSuelo);
+        }
 
-    // Se llama en cada frame para actualizar la posición de fondo y suelo
+    // se llama en cada frame para actualizar la posición de fondo y suelo
     actualizar(desplazamientoX) {
-        // El fondo se mueve más lento que el suelo para generar efecto de parallax
+        // el fondo se mueve mas lento que el suelo para generar efecto de parallax o profundidad :)
         this.imagenFondo.tilePositionX = desplazamientoX * 0.5;
         this.suelo.tilePositionX = desplazamientoX;
     }

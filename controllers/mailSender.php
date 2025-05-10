@@ -2,34 +2,41 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Incluye el autoload de Composer
 require_once __DIR__ . '/../vendor/autoload.php';
 
-// Crear una instancia de PHPMailer
-$mail = new PHPMailer(true);
+function enviarCorreoDeVerificacion($emailUsuario, $nombreUsuario, $apellidoUsuario, $codigo) {
+    $nombreCompleto = $nombreUsuario . ' ' . $apellidoUsuario;
 
-try {
-    // Configuración del servidor
-    $mail->isSMTP();
-    $mail->Host       = 'smtp.gmail.com';         // Servidor SMTP de Gmail
-    $mail->SMTPAuth   = true;
-    $mail->Username   = 'tucorreo@gmail.com';      
-    $mail->Password   = 'tu_contraseña_o_app_pass';
-    $mail->SMTPSecure = 'tls';
-    $mail->Port       = 587;
+    // Enviar correo con PHPMailer
+    try {
+        $mail = new PHPMailer(true);
 
-    // Remitente y destinatario
-    $mail->setFrom('tucorreo@gmail.com', 'Tu Nombre o App');
-    $mail->addAddress('destinatario@gmail.com'); 
+        $mail->setLanguage('es');
+        $mail->CharSet = 'UTF-8';
 
-    // Contenido del correo
-    $mail->isHTML(true);
-    $mail->Subject = 'Asunto de prueba';
-    $mail->Body    = '<h1>¡Correo enviado desde XAMPP!</h1><p>Esto es un mensaje de prueba usando PHPMailer.</p>';
-    $mail->AltBody = 'Esto es un mensaje de prueba usando PHPMailer (texto alternativo)';
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'prueba.verif14@gmail.com';
+        $mail->Password   = 'C'; //contraseña
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
 
-    $mail->send();
-    echo 'Correo enviado correctamente';
-} catch (Exception $e) {
-    echo "Error al enviar el correo: {$mail->ErrorInfo}";
+        $mail->setFrom('prueba.verif14@gmail.com', 'USO WARGAME');
+        $mail->addAddress($emailUsuario, $nombreCompleto);
+
+        $mail->isHTML(true);
+        $mail->Subject = 'Activación de cuenta';
+        $mail->Body    = "
+            <h2>Hola, $nombreCompleto</h2>
+            <p>Tu código de verificación es:</p>
+            <h1 style='color: #2E86C1;'>$codigo</h1>
+            <p>Este código expirará en 5 minutos.</p>
+        ";
+
+        $mail->send();
+        return ['status' => 'success', 'message' => 'Correo enviado correctamente'];
+    } catch (Exception $e) {
+        return ['status' => 'error', 'message' => "Error al enviar el correo: {$mail->ErrorInfo}"];
+    }
 }

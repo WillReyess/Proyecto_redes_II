@@ -9,15 +9,15 @@ function esDispositivoMovil() {
 function iniciarJuego() {
   const config = {
     type: Phaser.AUTO,
+    parent: 'container',    
     width: innerWidth,
     height: innerHeight,
-    parent: 'container',
     backgroundColor: '#000000',
     pixelArt: true,
     physics: {
       default: 'arcade',
       arcade: {
-        gravity: { y: 400 },
+        gravity: { y: innerHeight * 1.0 }, // Gravedad en porcentaje de la altura de la pantalla
         debug: false
       }
     },

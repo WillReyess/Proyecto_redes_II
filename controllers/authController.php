@@ -25,7 +25,29 @@ class AuthController {
         $query = "INSERT INTO players (Nombre, Apellido, Correo, Password) VALUES ('$name', '$lastName', '$email', '$password')";
 
         if ($this->conn->query($query)) {
-            header("Location: http://localhost/Proyecto_redes_II/views/verification.html");
+            session_start();
+
+            $_SESSION['Correo'] = $email; // Guardar el correo en la sesión para usarlo en la verificación
+            $_SESSION['Nombre'] = $name; // Guardar el nombre en la sesión para enviar el correo de activación
+            $_SESSION['Apellido'] = $lastName; // Guardar el apellido en la sesión para enviar el correo de activación
+
+            $codigo = random_int(100000, 999999); // Generar un código de verificación
+            $_SESSION['codigo_verificacion'] = $codigo; // Guardar el código en la sesión
+            $_SESSION['codigo_expiracion'] = time() + 300; // Establecer la expiración del código a 5 minutos
+
+            require_once './mailSender.php';
+
+            // Llamamos a la función que envía el correo
+            $resultadoEnvio = enviarCorreoDeVerificacion($email, $name, $lastName, $codigo);
+
+            if ($resultadoEnvio['status'] === 'success') {
+                // Redirigir a la página de verificación si el correo fue enviado con éxito
+                header("Location: ../views/verification.php");
+                exit();
+            } else {
+                // Mostrar un error si no se pudo enviar el correo
+                return "Error al enviar el correo de verificación: " . $resultadoEnvio['message'];
+            }
         } else {
             return "Error al registrar usuario: " . $this->conn->error;
         }
@@ -44,10 +66,10 @@ class AuthController {
 
                 session_start();
                 $_SESSION['user_id'] = $user['player_id']; // se guarda el id para poder usarlo al guardar el puntaje
-
+            
                 //redirije al usuario a la pagina principal
-                header("Location: http://localhost/Proyecto_redes_II/views/wheel.html");
-                //header("Location: ./guardar_puntaje.php");
+                header("Location: ../views/wheel.html");
+                
                 exit();
             } else {
                 header("Location: http://localhost/Proyecto_redes_II/views/login.php?error=Contraseña incorrecta");
@@ -58,6 +80,27 @@ class AuthController {
             exit(); 
         }
     }
+    
+    //medoto para cerrar sesion
+    public function logout() {
+        session_start();
+        session_unset(); // Elimina todas las variables de sesión
+        session_destroy(); // Destruye la sesión
+        header("Location: ../index.php"); // Redirige al usuario a la página de login
+        exit();
+    }
+}
+
+///funcion para enmascarar el correo
+function enmascararCorreo($correo) {
+    //se calcula la posicion del @
+    $posArroba = strpos($correo, '@');
+    if ($posArroba !== false) {
+        $primerasDosLetras = substr($correo, 0, 2); // Primeras dos letras
+        $dominio = substr($correo, $posArroba); // Dominio completo
+        return $primerasDosLetras . '*****' . $dominio; // Enmascarar el resto
+    }
+    return $correo; // Si no se encuentra el @, devolver el correo original
 }
 
 // Verificar si se ha enviado el formulario de registro o login
@@ -84,5 +127,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $auth->login($email, $password);
         echo $result;
     }
+}elseif (isset($_GET['logout'])) {
+    // Crear instancia de AuthController y llamar al método logout
+    $auth = new AuthController();
+    $auth->logout();
 }
 ?>

@@ -31,15 +31,38 @@ try {
 
         $query = "INSERT INTO scores (player_id, score, tiempo_jugado) VALUES ('$idJugador', '$puntaje', '$tiempo')";
         if ($conn->query($query) === TRUE) {
-            echo json_encode(['status' => 'success', 'message' => 'Puntaje guardado correctamente']);
+            // Ahora, después de guardar el puntaje, consulta el ranking
+            $sql = "SELECT players.nombre, players.apellido, scores.score, scores.tiempo_jugado 
+                    FROM players 
+                    JOIN scores ON scores.player_id = players.player_id 
+                    ORDER BY scores.score DESC 
+                    LIMIT 5";
+            $resultado = $conn->query($sql);
+
+            $ranking = [];
+            if ($resultado->num_rows > 0) {
+                while ($row = $resultado->fetch_assoc()) {
+                    $ranking[] = $row;
+                }
+            }
+
+            //devuelve el ranking en formato JSON
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Puntaje guardado correctamente',
+                'ranking' => $ranking
+            ]);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Error al guardar puntaje: ' . $conn->error]);
         }
     } else {
         echo json_encode(['status' => 'error', 'message' => 'Datos incompletos']);
     }
+
 } catch (Exception $e) {
-    echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+    echo json_encode(['status' => 'error', 'message' => 'Datos no válidos']);
 } finally {
     $conn->close();
 }
+
+?>
