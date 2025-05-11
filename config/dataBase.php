@@ -1,11 +1,26 @@
 <?php
+
+require_once __DIR__ . '/../vendor/autoload.php';
+
+use Dotenv\Dotenv;
+// Cargar el archivo .env
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
+
 class Database {
     // credenciales de la base de datos
-    private $host = "localhost";
-    private $dbname = "game_users";
-    private $username = "root";
-    private $password = "";
+    private $host;
+    private $dbname;
+    private $username;
+    private $password;
     public $conn;
+
+    public function __construct() {
+        $this->host = $_ENV['DB_HOST'];
+        $this->dbname = $_ENV['DB_NAME'];
+        $this->username = $_ENV['DB_USERNAME'];
+        $this->password = $_ENV['DB_PASSWORD'];
+    }
 
     public function getConnection() {
         $this->conn = null;

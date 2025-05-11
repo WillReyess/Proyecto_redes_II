@@ -11,33 +11,35 @@ document.addEventListener("DOMContentLoaded", function () {
         main.classList.remove("right-panel-active");
     });
 
-    // Verifica que las contraseñas ingresadas sean las mismas
-    document.getElementById("SignUpForm").addEventListener("submit", function(event){
-        const password = document.getElementById("password").value.trim();
-        const confirm_password = document.getElementById("confirm_password").value.trim();
+    //datos del registro
+    const pass = document.getElementById("password");
+    const confirmPass = document.getElementById("confirm_password");
+    const signupForm = document.getElementById("SignUpForm");
+    const checkbox = document.getElementById("mostrar_contraseña_registro");
 
-        if(password !== confirm_password){
-            alert("Las contraseñas no coinciden. Por favor, inténtelo nuevamente.");
-            event.preventDefault(); // Evita que el formulario se envíe
-        }
-    });
+    //compara las contraseñas
+    compararPass(signupForm, pass, confirmPass);
+    
+    //muestra las contraseñas
+    mostrarPass(checkbox, pass, confirmPass);
 
-    // Mostrar/Ocultar contraseñas al marcar checkbox (registro)
-    const mostrarContraseñaRegistro = document.getElementById("mostrar_contraseña_registro");
-    const passwordInput = document.getElementById("password");
-    const confirmPasswordInput = document.getElementById("confirm_password");
+    //datos del acceso
+    const PassLogin = document.getElementById("Password");
+    const checkboxLogin = document.getElementById("mostrar_contraseña_login");
 
-    mostrarContraseñaRegistro.addEventListener("change", function () {
-        const tipo = this.checked ? "text" : "password";
-        passwordInput.type = tipo;
-        confirmPasswordInput.type = tipo;
-    });
+    //mostrar las contraseñas
+    mostrarPass(checkboxLogin, PassLogin);
 
-    // Mostrar/Ocultar contraseña al marcar checkbox (login)
-    const mostrarContraseñaLogin = document.getElementById("mostrar_contraseña_login");
-    const loginPasswordInput = document.getElementById("Password");
+    const mensaje = document.getElementById('mensaje-exito');
+    if (mensaje) {
+        setTimeout(function () {
+            mensaje.style.opacity = '0';
 
-    mostrarContraseñaLogin.addEventListener("change", function () {
-        loginPasswordInput.type = this.checked ? "text" : "password";
-    });
+            // Esperamos a que se desvanezca, luego recargamos la página
+            setTimeout(() => {
+                window.location.href = window.location.pathname;
+            }, 500); 
+        }, 3000);
+    }
+
 });

@@ -22,6 +22,7 @@ class AuthController {
         if ($password !== $confirm_password) {
             return "Error: Las contraseñas no coinciden";
         }
+        session_start();
 
         // Limpiar datos (para prevenir inyecciones SQL)
         $name = $this->conn->real_escape_string($name);
@@ -33,9 +34,6 @@ class AuthController {
         $query = "INSERT INTO players (Nombre, Apellido, Correo, Password) VALUES ('$name', '$lastName', '$email', '$password')";
 
         $_SESSION['tipo_verificacion'] = 'registro'; // Tipo de verificación para manejar el flujo posterior
-
-        session_start();
-
 
         if ($this->conn->query($query)) {
             // Guardamos los datos del usuario en la sesión para continuar el flujo
@@ -100,6 +98,7 @@ class AuthController {
 
     // Método para cerrar sesión
     public function logout() {
+        session_start();
         session_unset(); // Elimina todas las variables de sesión
         session_destroy(); // Destruye la sesión
         header("Location: ../index.php"); // Redirige al usuario a la página de login
@@ -142,12 +141,12 @@ elseif (isset($_GET['logout'])) {
 // Proceso de verificación de cuenta / reenvío de código
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once './mailSender.php';
-    session_start();
 
 
     // Reenvío de código de verificación
     if (isset($_POST['reenviar'])) {
         if (isset($_SESSION['Correo'])) {
+            session_start();
             // Generar nuevo código y reenviarlo
             $codigo = generarCodigo();
             $_SESSION['codigo_verificacion'] = $codigo;
@@ -162,10 +161,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } 
     // Verificación de código ingresado
     elseif (isset($_POST['verificar'])) {
+        session_start();
         if (!isset($_POST['codigo'], $_SESSION['codigo_verificacion'], $_SESSION['codigo_expiracion'])) {
             echo "Error: Código no enviado o sesión inválida.";
             exit();
         }
+        
 
         if (time() > $_SESSION['codigo_expiracion']) {
             echo "Error: El código ha expirado. Solicita uno nuevo.";
@@ -173,6 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $codigoIngresado = implode('', $_POST['codigo']);
+
         if ($codigoIngresado == $_SESSION['codigo_verificacion']) {
             unset($_SESSION['codigo_verificacion'], $_SESSION['codigo_expiracion']); // Limpiar el código
 
@@ -242,6 +244,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } 
     // Cambio de contraseña
     elseif (isset($_POST['cambiar_password'])) {
+        session_start();
         if (!isset($_SESSION['Correo'])) {
             echo "Sesión expirada o inválida.";
             exit();
@@ -265,7 +268,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($conn->query($query)) {
             session_unset(); // Limpiar sesión
             session_destroy(); // Destruir sesión
-            echo "Contraseña actualizada correctamente. Puedes iniciar sesión nuevamente.";;
+            header("Location: ../index.php?mensaje=contrasena_actualizada");
             exit();
         } else {
             echo "Error al actualizar la contraseña: " . $conn->error;

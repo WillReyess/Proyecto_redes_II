@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,6 +9,19 @@
     <link rel="stylesheet" href="./public/css/login.css">
 </head>
 <body>
+    <!-- Mensaje de confirmacion del cambio de contraseña-->
+    <?php
+    $mensaje = '';
+    if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'contrasena_actualizada') {
+        $mensaje = 'Contraseña actualizada correctamente. Puedes iniciar sesión.';
+    }
+    ?>
+    <?php if ($mensaje): ?>
+        <div id="mensaje-exito" class="alert-exito">
+            <?php echo $mensaje; ?>
+        </div>
+    <?php endif; ?>
+    
     <div class="container" id="main">
         <!-- Formulario de registro -->
         <div class="sign-up">
@@ -99,5 +113,6 @@
     </div>
 
     <script src="./public/js/loginScript.js"></script>
+    <script src="./public/js/formulario_scripts.js"></script>
 </body>
 </html>
