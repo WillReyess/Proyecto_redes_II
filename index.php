@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>login</title>
-    <!-- Carga la fuente y los iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Carga el archivo CSS local para el estilo del login -->
     <link rel="stylesheet" href="./public/css/login.css">
 </head>
 <body>
@@ -14,15 +12,7 @@
         <!-- Formulario de registro -->
         <div class="sign-up">
             <form action="./controllers/authController.php" method="post" id="SignUpForm">
-                <h1>Registrarse</h1> <!-- Título del formulario -->
-                
-                <!-- Contenedor para las redes sociales -->
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="social"><i class="fab fa-x"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google"></i></a>
-                </div>
-                <p>o use su correo para registrar</p> <!-- Texto que indica que también se puede registrar con correo electrónico -->
+                <h1 id="titulo">Registrarse</h1>
                 
                 <!-- Campos para nombre y apellido -->
                 <div class="input-group">
@@ -33,21 +23,28 @@
                 <!-- Campo para el correo electrónico -->
                 <div class="signUp_email_container">
                     <input type="email" id="correo" name="correo" placeholder="Email" required>
-                    <i class="fa-regular fa-envelope" id="icon_email_signUp"></i> <!-- Icono de email -->
+                    <i class="fa-regular fa-envelope" id="icon_email"></i> 
                 </div>
 
                 <!-- Campo para la contraseña -->
                 <div class="passContainer">
                     <input type="password" id="password" name="password" placeholder="Contraseña" required>
-                    <i class="fa-regular fa-eye" id="password-icon"></i> <!-- Icono de visibilidad de la contraseña -->
+                    <i class="fa-solid fa-lock" id="icon_password"></i> 
+
                 </div>
 
                 <!-- Campo para confirmar la contraseña -->
                 <div class="passConfirmContainer">
                     <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmar Contraseña" required>
-                    <i class="fa-regular fa-eye" id="confirm-password-icon"></i> <!-- Icono de visibilidad de la contraseña -->
+                    <i class="fa-solid fa-lock" id="icon_password"></i> 
                 </div>
 
+                <!-- Checkbox para mostrar contraseña -->
+                <div class="checkbox-container">
+                    <input type="checkbox" id="mostrar_contraseña_registro">
+                    <label for="mostrar_contraseña_registro" id="mostrar_pass">Mostrar contraseña</label>
+                </div>
+                
                 <!-- Botón para enviar el formulario -->
                 <button type="submit" name="registrar">Registrar</button>
             </form>
@@ -56,23 +53,7 @@
         <!-- Formulario de inicio de sesión -->
         <div class="sign-in">
             <form action="./controllers/authController.php" method="post">
-                <h1>Inicio de Sesión</h1> <!-- Título del formulario -->
-
-                <?php
-                    // Muestra un mensaje de error si está presente en la sesión
-                    if (isset($_SESSION['error_message'])) {
-                        echo "<p class='error'>" . $_SESSION['error_message'] . "</p>";
-                        unset($_SESSION['error_message']);  // Elimina el mensaje de error de la sesión después de mostrarlo
-                    }
-                ?>
-
-                <!-- Contenedor para las redes sociales -->
-                <div class="social-container">
-                    <a href="#" class="social"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="social"><i class="fa-brands fa-x-twitter"></i></a>
-                    <a href="#" class="social"><i class="fab fa-google"></i></a>
-                </div>
-                <p>o use su cuenta.</p> <!-- Texto que indica que también se puede iniciar sesión con cuenta -->
+                <h1 id="titulo">Inicio de Sesión</h1> 
                 
                 <!-- Campo para el correo electrónico -->
                 <div class="signIn_Email_Container">
@@ -82,35 +63,41 @@
 
                 <!-- Campo para la contraseña -->
                 <div class="signInPassContainer">
-                    <input type="password" id="signInpass" name="Password" placeholder="Password" required>
-                    <i class="fa-regular fa-eye" id="iconSignIn"></i> <!-- Icono de visibilidad de la contraseña -->
+                    <input type="password" id="Password" name="Password" placeholder="Password" required>
+                    <i class="fa-solid fa-lock" id="icon_password"></i>
                 </div>
-                <a href="#"> ¿Olvidó la contraseña?</a> <!-- Enlace para recuperar la contraseña -->
-                <button type="submit" name="signInBtn">Iniciar Sesión</button> <!-- Botón para enviar el formulario -->
+
+                <!-- Checkbox para mostrar contraseña -->
+                <div class="checkbox-container">
+                    <input type="checkbox" id="mostrar_contraseña_login">
+                    <label for="mostrar_contraseña_login" id="mostrar_pass">Mostrar contraseña</label>
+                </div>
+
+                <a href="./views/restablecer_pass.php" id="olvido_contraseña"> ¿Olvidó la contraseña?</a> 
+                <button type="submit" name="signInBtn">Iniciar Sesión</button> 
             </form>
         </div>
 
         <!-- Contenedor de la superposición (para cambiar entre formularios de registro e inicio de sesión) -->
         <div class="overlay-container">
             <div class="overlay">
-                <!-- Lado izquierdo de la superposición (inicio de sesión) -->
+                
                 <div class="overlay-left">
-                    <h1>!Bienvenido de vuelta!</h1> <!-- Título de bienvenida -->
-                    <p>Para seguir disfrutando del juego ingrese con sus datos</p> <!-- Instrucciones -->
-                    <button id="signIn">Iniciar Sesión</button> <!-- Botón para iniciar sesión -->
+                    <h1>!Bienvenido de vuelta!</h1> 
+                    <p>Para seguir disfrutando del juego ingrese con sus datos</p> 
+                    <button id="signIn">Iniciar Sesión</button> 
                 </div>
 
                 <!-- Lado derecho de la superposición (registro) -->
                 <div class="overlay-right">
-                    <h1>¡Hola Amigo!</h1> <!-- Título de bienvenida para nuevos usuarios -->
-                    <p>Ingrese su informacion para iniciar esta nueva aventura</p> <!-- Instrucciones -->
-                    <button id="signUp">Registrar</button> <!-- Botón para registrarse -->
+                    <h1>¡Hola Amigo!</h1> 
+                    <p>Ingrese su informacion para iniciar esta nueva aventura</p> 
+                    <button id="signUp">Registrar</button> 
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Carga el archivo de JavaScript para la interacción de los formularios -->
     <script src="./public/js/loginScript.js"></script>
 </body>
 </html>
