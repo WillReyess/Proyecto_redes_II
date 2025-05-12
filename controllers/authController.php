@@ -7,6 +7,13 @@ function generarCodigo() {
     return random_int(100000, 999999); // Genera un código de 6 dígitos
 }
 
+function compararPass($pass, $confirmPass) {
+    if ($pass !== $confirmPass) {
+        header("Location: ../index.php?mensaje=contrasenas_no_coinciden");
+        exit();
+    }
+}
+
 class AuthController {
     private $conn;
 
@@ -19,9 +26,8 @@ class AuthController {
     // Método de registro de nuevo usuario
     public function register($name, $lastName, $email, $password, $confirm_password) {
         // Verifica si las contraseñas coinciden
-        if ($password !== $confirm_password) {
-            return "Error: Las contraseñas no coinciden";
-        }
+        compararPass($password, $confirm_password);
+
         session_start();
 
         // Limpiar datos (para prevenir inyecciones SQL)
@@ -30,16 +36,23 @@ class AuthController {
         $email = $this->conn->real_escape_string($email);
         $password = password_hash($password, PASSWORD_DEFAULT); // Se aplica hash a la contraseña
 
-        // Inserción en la base de datos
-        $query = "INSERT INTO players (Nombre, Apellido, Correo, Password) VALUES ('$name', '$lastName', '$email', '$password')";
+        // Inserción en la base de datos usando sentencia preparada
+        $query = "INSERT INTO players (Nombre, Apellido, Correo, Password) VALUES (?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssss", $name, $lastName, $email, $password); // 'ssss' indica que son 4 parámetros de tipo string
+        $stmt->execute();
 
         $_SESSION['tipo_verificacion'] = 'registro'; // Tipo de verificación para manejar el flujo posterior
 
-        if ($this->conn->query($query)) {
+        if ($stmt->affected_rows > 0) {
+            //se obtiene el ID del jugador recién registrado
+            $idJugador = $this->conn->insert_id; // Esto obtiene el ID generado automáticamente
+
             // Guardamos los datos del usuario en la sesión para continuar el flujo
             $_SESSION['Correo'] = $email;
             $_SESSION['Nombre'] = $name;
             $_SESSION['Apellido'] = $lastName;
+            $_SESSION['user_id'] = $idJugador;
 
             // Generar y almacenar un código de verificación
             $codigo = generarCodigo();
@@ -65,18 +78,22 @@ class AuthController {
     // Método de login para un usuario registrado
     public function login($email, $password) {
         // Limpiar datos (para prevenir inyecciones SQL)
-        $email = $this->conn->real_escape_string($email);
-        $query = "SELECT * FROM players WHERE Correo = '$email' LIMIT 1";
-        $result = $this->conn->query($query);
-        session_start();
+        $email = trim($email);
 
+        // Preparar la consulta con sentencia preparada
+        $query = "SELECT * FROM players WHERE Correo = ? LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $email); // 's' indica que es un parámetro de tipo string
+        $stmt->execute();
+        $result = $stmt->get_result();
+        session_start();
 
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
             // Verificar si el usuario está activo
             if ($user['activa'] == 0) {
-                header("Location: ../views/login.php?error=Usuario no verificado");
+                header("Location: ../index.php?mensaje=Usuario_no_verificado");
                 exit();
             }
 
@@ -84,14 +101,14 @@ class AuthController {
             if (password_verify($password, $user['Password'])) {
                 // Guardar la sesión con el ID del usuario
                 $_SESSION['user_id'] = $user['player_id'];
-                header("Location: ../views/wheel.html"); // Redirigir al usuario a la página de bienvenida
+                header("Location: ../views/wheel.html"); 
                 exit();
             } else {
-                header("Location: ../views/login.php?error=Contraseña incorrecta");
+                header("Location: ../index.php?mensaje=contrasena_incorrecta");
                 exit();
             }
         } else {
-            header("Location: ../views/login.php?error=Usuario no encontrado");
+            header("Location: ../index.php?mensaje=Usuario_no_encontrado");
             exit();
         }
     }
@@ -142,34 +159,43 @@ elseif (isset($_GET['logout'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once './mailSender.php';
 
-
     // Reenvío de código de verificación
     if (isset($_POST['reenviar'])) {
+        session_start();
         if (isset($_SESSION['Correo'])) {
-            session_start();
             // Generar nuevo código y reenviarlo
             $codigo = generarCodigo();
             $_SESSION['codigo_verificacion'] = $codigo;
             $_SESSION['codigo_expiracion'] = time() + 300;
 
-            $resultadoEnvio = enviarCorreoDeVerificacion($_SESSION['Correo'], $_SESSION['Nombre'], $_SESSION['Apellido'], $codigo);
+            $resultadoEnvio = enviarCorreoDeVerificacion(
+                $_SESSION['Correo'],
+                $_SESSION['Nombre'],
+                $_SESSION['Apellido'],
+                $codigo
+            );
 
-            echo $resultadoEnvio['status'] === 'success' ? "Correo reenviado correctamente" : "Error al reenviar el correo: " . $resultadoEnvio['message'];
+            if ($resultadoEnvio['status'] === 'success') {
+                header("Location: ../views/verification.php?mensaje=correo_reenviado_correctamente");
+            } else {
+                header("Location: ../views/verification.php?mensaje=error_reenviar_codigo");
+            }
+            exit();
         } else {
-            echo "Error: No se ha encontrado el correo en la sesión.";
+            header("Location: ../views/verification.php?mensaje=sesion_invalida");
         }
-    } 
+    }
+
     // Verificación de código ingresado
     elseif (isset($_POST['verificar'])) {
         session_start();
         if (!isset($_POST['codigo'], $_SESSION['codigo_verificacion'], $_SESSION['codigo_expiracion'])) {
-            echo "Error: Código no enviado o sesión inválida.";
+            header("Location: ../views/verification.php?mensaje=codigo_no_enviado/sesion_invalida");
             exit();
         }
         
-
         if (time() > $_SESSION['codigo_expiracion']) {
-            echo "Error: El código ha expirado. Solicita uno nuevo.";
+            header("Location ../views/verification.php?mensaje=codigo_expirado");
             exit();
         }
 
@@ -184,12 +210,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Activación de cuenta
             if ($_SESSION['tipo_verificacion'] === 'registro') {
-                $query = "UPDATE players SET activa = 1 WHERE Correo = '$email'";
-                if ($conn->query($query)) {
+                $query = "UPDATE players SET activa = 1 WHERE Correo = ?";
+                $stmt = $conn->prepare($query);
+                $stmt->bind_param("s", $email);
+                $stmt->execute();
+
+                if ($stmt->affected_rows > 0) {
                     header("Location: ../views/wheel.html");
                     exit();
                 } else {
-                    echo "Error al activar cuenta: " . $conn->error;
+                    header("Location: ../views/verification.php?mensaje=error_activar_cuenta");
+                    exit();
                 }
             } 
             // Recuperación de contraseña
@@ -198,27 +229,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             }
         } else {
-            echo "Código incorrecto.";
+            header("Location: ../views/verification.php?mensaje=codigo_incorrecto");
         }
-    } 
+    }
     // Si el usuario decide volver a la página de login
     elseif (isset($_POST['volver'])) {
-        session_unset(); // Limpiar sesión
-        session_destroy(); // Destruir sesión
-        header("Location: ../index.php"); // Redirigir al login
+        session_unset(); 
+        session_destroy(); 
+        header("Location: ../index.php"); 
         exit();
     } 
     // Enviar código para recuperación de contraseña
     elseif (isset($_POST['enviar_codigo'])) {
-
         session_start();
 
         $_SESSION['tipo_verificacion'] = 'recuperacion';
         $database = new Database();
         $conn = $database->getConnection();
-        $email = $conn->real_escape_string($_POST['email']);
-        $query = "SELECT * FROM players WHERE Correo = '$email' LIMIT 1";
-        $result = $conn->query($query);
+
+        $email = trim($_POST['email']);
+        
+        $stmt = $conn->prepare("SELECT * FROM players WHERE Correo = ? LIMIT 1");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
@@ -236,10 +270,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 header("Location: ../views/verification.php");
                 exit();
             } else {
-                echo "Error al enviar el código: " . $resultadoEnvio['message'];
+                header("Location: ../views/restablecer_pass.php?mensaje=error_enviar_codigo");
+                exit();
             }
         } else {
-            echo "Correo no registrado en el sistema.";
+            header("Location: ../views/restablecer_pass.php?mensaje=correo_no_encontrado");
+            exit();
         }
     } 
     // Cambio de contraseña
@@ -253,19 +289,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $password = $_POST['new_password'];
         $confirm = $_POST['confirm_password'];
 
-        if ($password !== $confirm) {
-            echo "Las contraseñas no coinciden.";
-            exit();
-        }
+        compararPass($password, $confirm);
 
         $database = new Database();
         $conn = $database->getConnection();
-        $email = $conn->real_escape_string($_SESSION['Correo']);
+
+        $email = trim($_POST['email']); 
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = "UPDATE players SET Password = '$hashedPassword' WHERE Correo = '$email'";
+        $query = "UPDATE players SET Password = ? WHERE Correo = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("ss", $hashedPassword, $email); // 'ss' indica que son dos parámetros de tipo string
+        $stmt->execute();
 
-        if ($conn->query($query)) {
+        if ($stmt->affected_rows > 0) {
             session_unset(); // Limpiar sesión
             session_destroy(); // Destruir sesión
             header("Location: ../index.php?mensaje=contrasena_actualizada");

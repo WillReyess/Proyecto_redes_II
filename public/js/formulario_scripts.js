@@ -11,15 +11,15 @@ function mostrarPass(checkbox, ...inputs) { //guarda los valores de los inputs e
     }
 }
 
-///comprar las contraseñas 
-function compararPass(formElement, passInput, confirmPassInput) {
-    formElement.addEventListener("submit", function(event) {
-        const passValue = passInput.value.trim();
-        const confirmValue = confirmPassInput.value.trim();
+//desvanecimiento de mensajes de error y exito
+function aplicarDesvanecimiento(mensajeElemento) {
+    if (mensajeElemento) {
+        setTimeout(function () {
+            mensajeElemento.style.opacity = '0'; // Desvanecemos el mensaje
 
-        if (passValue !== confirmValue) {
-            event.preventDefault(); // Evita el envío del formulario
-            alert("Las contraseñas no coinciden. Por favor, verifícalas.");
-        }
-    });
+            setTimeout(() => {
+                window.location.href = window.location.pathname; // Recargamos la página después del desvanecimiento
+            }, 500);
+        }, 3000); // Desvanecer después de 3 segundos
+    }
 }

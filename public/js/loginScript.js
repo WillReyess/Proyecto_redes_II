@@ -14,12 +14,8 @@ document.addEventListener("DOMContentLoaded", function () {
     //datos del registro
     const pass = document.getElementById("password");
     const confirmPass = document.getElementById("confirm_password");
-    const signupForm = document.getElementById("SignUpForm");
     const checkbox = document.getElementById("mostrar_contraseña_registro");
 
-    //compara las contraseñas
-    compararPass(signupForm, pass, confirmPass);
-    
     //muestra las contraseñas
     mostrarPass(checkbox, pass, confirmPass);
 
@@ -30,16 +26,13 @@ document.addEventListener("DOMContentLoaded", function () {
     //mostrar las contraseñas
     mostrarPass(checkboxLogin, PassLogin);
 
-    const mensaje = document.getElementById('mensaje-exito');
-    if (mensaje) {
-        setTimeout(function () {
-            mensaje.style.opacity = '0';
+    const mensajeError = document.getElementById("mensaje-error");
+    const mensajeExito = document.getElementById("mensaje-exito");
 
-            // Esperamos a que se desvanezca, luego recargamos la página
-            setTimeout(() => {
-                window.location.href = window.location.pathname;
-            }, 500); 
-        }, 3000);
+    if (mensajeError) {
+        aplicarDesvanecimiento(mensajeError);
     }
-
+    if (mensajeExito) {
+        aplicarDesvanecimiento(mensajeExito);
+    }
 });

@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 header('Content-Type: application/json');
 
 require_once '../config/dataBase.php';
@@ -12,6 +13,7 @@ try {
         echo json_encode(['status' => 'error', 'message' => 'No se encontró el ID del jugador en la sesión']);
         exit();
     }
+    
 
     $idJugador = $_SESSION['user_id'];
 

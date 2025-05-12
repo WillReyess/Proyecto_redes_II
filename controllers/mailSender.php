@@ -9,7 +9,6 @@ $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 function enviarCorreoDeVerificacion($emailUsuario, $nombreUsuario, $apellidoUsuario, $codigo) {
-    session_start();
 
     $nombreCompleto = $nombreUsuario . ' ' . $apellidoUsuario;
 
@@ -34,7 +33,7 @@ function enviarCorreoDeVerificacion($emailUsuario, $nombreUsuario, $apellidoUsua
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = $_ENV['EMAIL_ADDRESS'];
-        $mail->Password   = $_ENV['EMAIL_PASSWORD']; //contraseña
+        $mail->Password   = $_ENV['EMAIL_PASSWORD'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 

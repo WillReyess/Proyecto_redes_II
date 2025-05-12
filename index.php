@@ -7,22 +7,40 @@
     <title>login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="./public/css/login.css">
+    <link rel="stylesheet" href="./public/css/messages.css">
 </head>
 <body>
     <!-- Mensaje de confirmacion del cambio de contraseña-->
     <?php
     $mensaje = '';
-    if (isset($_GET['mensaje']) && $_GET['mensaje'] === 'contrasena_actualizada') {
-        $mensaje = 'Contraseña actualizada correctamente. Puedes iniciar sesión.';
+    $tipo_mensaje = '';
+
+    if (isset($_GET['mensaje'])) {
+        // Array asociativo que mapea los valores de mensaje
+        $mensajes = [
+            'contrasena_actualizada' => ['Contraseña actualizada correctamente. Puedes iniciar sesión.', 'exito'],
+            'contrasena_incorrecta' => ['Contraseña incorrecta. Intenta de nuevo.', 'error'],
+            'contrasenas_no_coinciden' => ['Las contraseñas no coinciden. Intenta de nuevo.', 'error'],
+            'Usuario_no_encontrado' => ['No pudimos encontrar tu cuenta. ¡Por favor, regístrate para continuar!', 'error'],
+            'Usuario_no_verificado' => ['Tu cuenta está pendiente de verificación. Por favor, activa tu cuenta para acceder', 'error'],
+        ];
+
+        $mensajeKey = $_GET['mensaje'];
+
+        if (isset($mensajes[$mensajeKey])) {
+            list($mensaje, $tipo_mensaje) = $mensajes[$mensajeKey];
+        }
     }
     ?>
+
     <?php if ($mensaje): ?>
-        <div id="mensaje-exito" class="alert-exito">
+        <div id="mensaje-<?php echo $tipo_mensaje; ?>" class="alert-<?php echo $tipo_mensaje; ?>">
             <?php echo $mensaje; ?>
         </div>
     <?php endif; ?>
-    
+
     <div class="container" id="main">
+        
         <!-- Formulario de registro -->
         <div class="sign-up">
             <form action="./controllers/authController.php" method="post" id="SignUpForm">
