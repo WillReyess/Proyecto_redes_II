@@ -417,7 +417,7 @@ export default class EscenaJuego extends Phaser.Scene {
         };
 
         // Se envían los datos al backend
-        fetch('http://localhost/Proyecto_redes_II/controllers/guardar_puntaje.php', {
+        fetch(`http://${location.host}/Proyecto_redes_II/controllers/guardar_puntaje.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

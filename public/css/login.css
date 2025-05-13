@@ -8,13 +8,13 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    /*background-image: url('../../assets/lgprueba.png');*/
+    
     background: linear-gradient( #60a5fa, #2563eb, #1e3a8a);
-    background-repeat: no-repeat;       /* Que no se repita */
-    background-size: cover;             /* Escala para cubrir el área */
-    background-position: center;        /* Centrada */
-    min-height: 100vh;                  /* Altura mínima de la pantalla */
-    margin: 0;                          /* Quita el margen para evitar bordes raros */
+    background-repeat: no-repeat;       
+    background-size: cover;             
+    background-position: center;        
+    min-height: 100vh;                  
+    margin: 0;                         
 } 
 
 /* Contenedor principal para el formulario */
@@ -26,7 +26,7 @@ body {
     background: #fff; 
     border-radius: 10px; 
     overflow: hidden; 
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 20px rgba(0,0,0,0.22); /* Agrega sombras para darle profundidad */
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 20px rgba(0,0,0,0.22); 
 }
 
 /* Estilos para las secciones de Sign Up y Sign In */
@@ -35,19 +35,19 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    transition: all 0.6s ease-in-out; /* Transición suave al cambiar de estado */
+    transition: all 0.6s ease-in-out; 
 }
 
 .sign-up {
-    width: 50%; /* Ocupa la mitad del contenedor */
-    opacity: 0; /* Inicialmente invisible */
-    z-index: 1; /* Se coloca debajo del formulario de Sign In */
-    margin: -10px 0 0 0; /* Ajusta el margen superior */
+    width: 50%; 
+    opacity: 0; 
+    z-index: 1; 
+    margin: -10px 0 0 0; 
 }
 
 .sign-in {
-    width: 50%; /* Ocupa la mitad del contenedor */
-    z-index: 2; /* Se coloca encima del formulario de Sign Up */
+    width: 50%; 
+    z-index: 2; 
 }
 
 /* Estilos para los formularios */
@@ -65,7 +65,7 @@ form {
 /* Estilos para el encabezado (h1) */
 h1 {
     font-weight: 14px; 
-    margin: 40px 0 0 0; /* Margen superior */
+    margin: 40px 0 0 0; 
 }
 
 /* Estilos para los párrafos (p) */
@@ -96,7 +96,7 @@ input {
 }
 
 .input-group input {
-    flex: 1; /* Los inputs dentro del grupo ocuparán el mismo espacio */
+    flex: 1; 
 }
 
 /* Enlaces dentro del formulario */
@@ -120,24 +120,24 @@ button {
     outline: none; 
     letter-spacing: 1px; 
     text-transform: uppercase; 
-    transition: transform 80ms ease-in; /* Transición para el efecto de clic */
-    cursor: pointer; /* Cambia el cursor al pasar por encima */
+    transition: transform 80ms ease-in; 
+    cursor: pointer; 
 }
 
 /* Efecto de escala en el botón al hacer clic */
 button:active {
-    transform: scale(0.90); /* Reduce el tamaño del botón ligeramente */
+    transform: scale(0.90);
 }
 
 /* Estilos para la superposición de los paneles (derecho e izquierdo) */
 .container.right-panel-active .sign-in {
-    transform: translateX(100%); /* Mueve el panel de inicio de sesión fuera de vista */
+    transform: translateX(100%); 
 }
 
 .container.right-panel-active .sign-up {
-    transform: translateX(100%); /* Mueve el panel de registro fuera de vista */
-    opacity: 1; /* Hace el panel de registro visible */
-    z-index: 5; /* Asegura que el panel de registro esté encima */
+    transform: translateX(100%); 
+    opacity: 1; 
+    z-index: 5; 
 }
 
 /* Contenedor de la capa superior (overlay) */
@@ -147,9 +147,9 @@ button:active {
     left: 50%;
     width: 50%;
     height: 100%;
-    overflow: hidden; /* Oculta cualquier contenido que sobresalga */
-    transition: transform 0.6s ease-in-out; /* Transición suave para el movimiento */
-    z-index: 100; /* Asegura que la capa superior esté encima */
+    overflow: hidden; 
+    transition: transform 0.6s ease-in-out; 
+    z-index: 100; 
 }
 
 .container.right-panel-active .overlay-container {
@@ -164,12 +164,12 @@ button:active {
     height: 100%;
     width: 200%;
     transform: translateX(0);
-    transition: transform 0.6s ease-in-out; /* Transición para el movimiento */
+    transition: transform 0.6s ease-in-out; 
 }
 
 /* Movilidad de la  superposicion cuando el panel derecho está activo */
 .container.right-panel-active .overlay {
-    transform: translateX(50%); /* Mueve la superposición al centro */
+    transform: translateX(50%); 
 }
 
 /* Estilos para las superposiciones izquierda y derecha */
@@ -186,13 +186,13 @@ button:active {
     width: 50%; 
     right: 0;
     transform: translateX(0);
-    transition: transform 0.6s ease-in-out; /* Transición para el movimiento */
+    transition: transform 0.6s ease-in-out; 
     background-image: url('../../assets/UsoLoginN.png'); 
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     color: white;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Mejora visibilidad del texto */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); 
 }
 
 .overlay-left{
@@ -206,24 +206,24 @@ button:active {
     top: 0;
     height: 100%;
     width: 50%; 
-    transform: translateX(-20%); /* Mueve la superposición hacia la izquierda */
-    transition: transform 0.6s ease-in-out; /* Transición para el movimiento */
+    transform: translateX(-20%); 
+    transition: transform 0.6s ease-in-out; 
     background-image: url('../../assets/UsoLoginN.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     color: white;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Mejora visibilidad del texto */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); 
 }
 
 
 /* Estilos cuando el panel derecho está activo */
 .container.right-panel-active .overlay-left {
-    transform: translateX(0); /* Mueve la superposición izquierda a su posición inicial */
+    transform: translateX(0); 
 }
 
 .container.right-panel-active .overlay-right {
-    transform: translateX(20%); /* Mueve la superposición derecha hacia la derecha */
+    transform: translateX(20%); 
 }
 
 /* Contenedor de iconos sociales */
@@ -250,13 +250,6 @@ button:active {
     margin-bottom: 5px; 
 }
 
-/* Estilos para el icono de la contraseña */
-.fa-regular {
-    font-size: 1.2rem; 
-    margin-left: -35px; 
-    cursor: pointer; 
-}
-
 /* Estilos para los contenedores de correo electrónico */
 .signUp_email_container, .signIn_Email_Container {
     display: flex; 
@@ -265,22 +258,52 @@ button:active {
     margin-bottom: 5px; 
 }
 
-/* Estilos para el icono del correo electrónico */
-.fa-envelope {
+/*icono del correo electronico*/
+#icon_email {
     font-size: 1.2rem; 
     margin-left: -35px;
-    cursor: pointer; 
+}
+/*icono del boton para ver la contraseña en el signIn*/
+#icon_pass_SignIn{
+    font-size: 1.2rem; 
+    margin-left: -35px;
+    cursor: pointer;
+}
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #555;
 }
 
-/* Estilos para los mensajes de error */
-.error {
-    background-color: rgb(175, 74, 74); 
-    color: black; 
-    padding: 10px; 
-    width: 95%; 
-    border-radius: 5px; 
-    margin: 20px auto; 
-    display: block; 
-    text-align: center; 
-    display: none; 
+.checkbox-container input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    accent-color: #007BFF; 
+    cursor: pointer;
 }
+
+.checkbox-container label {
+    cursor: pointer;
+}
+#icon_password {
+    font-size: 1.2rem; 
+    margin-left: -35px;
+    
+}
+/*estilo del titulo(registrar/ingresar*/
+#titulo{
+    font-size: 3rem; 
+    font-style: italic;
+    font-weight: bold; 
+    margin-bottom: 15px; 
+    color: #333;  
+}
+#mostrar_pass{
+    font-size: 1rem;
+    font-style: oblique;
+}
+/*mensaje de confirmacion de cambio de contraseña*/
+
