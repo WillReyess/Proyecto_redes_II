@@ -7,7 +7,7 @@
 
 body {
     min-height: 100vh;
-    background: url(http://localhost/Proyecto_redes_II/assets/fondo_dashboard.jpeg) center /cover;
+    background: url('../../assets/fondo_dashboard.jpeg') center /cover;
     display: flex;
     justify-content: center;
     align-items: center;

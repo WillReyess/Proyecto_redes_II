@@ -1,0 +1,24 @@
+.alert-exito {
+    background-color: #28a745; 
+    border: 2px solid #155724; 
+}
+.alert-error {
+    background-color: #dc3545; 
+    border: 2px solid #721c24; 
+}
+.alert-exito, .alert-error {
+    color: #ffffff;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 20px;
+    border-radius: 8px; 
+    font-weight: bold; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.5s ease, transform 0.3s ease-in-out;
+    transform: translateY(-20px); 
+    opacity: 1;
+}
+.alert-exito.show, .alert-error.show {
+    transform: translateY(0); 
+    opacity: 1; 
+}
