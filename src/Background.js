@@ -9,7 +9,7 @@ export default class Fondo {
 
     // recursos de imagenes
     preCargar() {
-        this.escena.load.image('fondo1', './assets/FondoB.png');
+        this.escena.load.image('fondo1', './assets/FondoB2.png');
         this.escena.load.image('suelo1', './assets/suelo1.png');
     }
 
