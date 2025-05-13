@@ -9,7 +9,8 @@ export default class Balas {
 
     // Carga de la imagen de la bala
     preCargar() {
-        this.escena.load.image('bala1', './assets/bala1.png');
+        this.escena.load.image('bala1', './assets/bala2.png');
+        
     }
 
     // Creación de grupo de balas
@@ -30,7 +31,7 @@ export default class Balas {
         });
     }
 
-    // Dispara una bala desde x, y con una velocidad a la izquierda o derecha
+    // dispara una bala desde x, y con una velocidad a la izquierda o derecha
     dispararBala(posX, posY, voltearX) {
         let bala = this.grupoBalas.create(posX, posY, 'bala1');
         if (!bala) return;
@@ -38,22 +39,30 @@ export default class Balas {
         bala.setActive(true);
         bala.setVisible(true);
         bala.body.allowGravity = false;
-        bala.setScale(0.5); // tamaño de la bala
+        const texturaOriginal = this.escena.textures.get('bala1').getSourceImage();
+        const anchoOriginal = texturaOriginal.width;
+        const anchoPantalla = this.escena.scale.width;
+        const porcentajeAncho = 0.03; // % del ancho visible
+        const anchoDeseado = anchoPantalla * porcentajeAncho;
+        const escala = anchoDeseado / anchoOriginal;
 
-        const velocidad = 800;
+        bala.setScale(escala);
+
+
+        const velocidad = this.escena.scale.width * 0.8; // velocidad responsiva
         if (voltearX) {
-            bala.setVelocityX(-velocidad);
-            bala.flipX = true;
+          bala.setVelocityX(-velocidad);
+          bala.flipX = true;
         } else {
-            bala.setVelocityX(velocidad);
-            bala.flipX = false;
+          bala.setVelocityX(velocidad);
+          bala.flipX = false;
         }
-    }
+      }
 
     /*
-     * Esta función la definimos luego en GameScene:
+     * funcióo definimda luego en GameScene:
      * onBulletHitObstacle(bala, obstaculo) {
-     *     // Lógica cuando una bala impacta un obstáculo
+     *     // Logica cuando una bala impacta un obstáculo
      * }
      */
 }
