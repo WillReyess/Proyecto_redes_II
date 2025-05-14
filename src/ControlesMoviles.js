@@ -33,26 +33,36 @@ export default class ControlesMoviles {
   }
 
   _instanciar(w, h) {
-    const size = 75; //diametro del boton
-    const margin = 50; // distancia respecto al borde derecho
-    const colX = w - margin - size;
-    const centerY = h / 2;
+    const baseSize = Math.min(w, h);
+    const size = baseSize * 0.2; // Tamaño de los botones (10% del tamaño de la pantalla)
+
+    
 
     const posiciones = {
-      up:    { x: colX,             y: centerY - size - 12 },
-      down:  { x: colX,             y: centerY + size + 12 },
-      left:  { x: colX - size - 12, y: centerY },
-      right: { x: colX + size + 12, y: centerY }
+      up:    { x: w * 0.1, y: h * 0.6 },
+      down:  { x: w * 0.8, y: h * 0.6 },
+      left:  { x: w * 0.7, y: h * 0.5 },
+      right: { x: w * 0.9, y: h * 0.5 },
+      disparo: { x: w * 0.1, y: h * 0.8 }
     };
+    
 
     const { left, right, up, down } = this.player.cursores;
-    const mapa = { up, down, left, right };
+    const disparo = this.player.teclaDisparo; // tecla de disparo
+    const mapa = { up, down, left, right, disparo };
 
     Object.entries(posiciones).forEach(([key, pos]) => {
       const spr = this.scene.add.image(pos.x, pos.y, 'btnCircle')
         .setScrollFactor(0)
         .setDepth(30)
-        .setAlpha(0.35);
+        .setAlpha(0.5) // OPACIDAD DEL BOTON
+        .setDisplaySize(size, size); // Tamaño del botón
+
+        /* const alphas = { up: 0.4, down: 0.4, left: 0.4, right: 0.4, disparo: 0.6 };
+        spr.setAlpha(alphas[key]);
+
+        */// Cambiar el alphas para cambiar la opacidad de los botones por separado
+
 
       spr.setInteractive({ useHandCursor: true });
       spr.activePointers = new Set();
@@ -80,15 +90,15 @@ export default class ControlesMoviles {
   }
 
   _reposicionar(w, h) {
-    const size = 75;
-    const margin = 50;
-    const colX = w - margin - size;
-    const centerY = h / 2;
-
+    
+    
     if (!this.buttons.up) return;
-    this.buttons.up.setPosition(colX, centerY - size - 12);
-    this.buttons.down.setPosition(colX, centerY + size + 12);
-    this.buttons.left.setPosition(colX - size - 12, centerY);
-    this.buttons.right.setPosition(colX + size + 12, centerY);
+
+    this.buttons.up.setPosition(w * 0.9, h * 0.3);
+    this.buttons.down.setPosition(w * 0.9, h * 0.7);
+    this.buttons.left.setPosition(w * 0.8, h * 0.5);
+    this.buttons.right.setPosition(w * 1.0, h * 0.5);
+    this.buttons.disparo.setPosition(w * 0.1, h * 0.8);
+    
   }
 }

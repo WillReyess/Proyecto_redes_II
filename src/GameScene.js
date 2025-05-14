@@ -65,11 +65,20 @@ export default class EscenaJuego extends Phaser.Scene {
 
         this.load.image('botSprite', './assets/bot1.png');
 
+        // carga de la imagen de ganar o perder
 
+        this.load.image('ganaste', './assets/perdiste.jpg');
+        this.load.image('perdiste', './assets/perdiste.jpg');
 
         //cargamos los sonidos
         this.load.audio('sonido_disparo', './assets/disparo.wav');
         this.load.audio('sonido_salto', './assets/salto.wav');
+        //this.load.audio('sonido_tiempoExtra', './assets/disparo.wav');
+        this.load.audio('sonido_danio', './assets/disparo.wav');
+
+        this.load.audio('sonido_ganar', './assets/victoria.mp3');
+        this.load.audio('sonido_perder', './assets/derrota.mp3');
+
 
 
 
@@ -112,7 +121,10 @@ export default class EscenaJuego extends Phaser.Scene {
         this.juegoFinalizado = false; // Variable para controlar el estado del juego
         
         // gestos móviles
-        this.controles = new ControlesMoviles(this, this.objetoJugador);
+        const esMovil = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
+        if (esMovil) {
+            this.controles = new ControlesMoviles(this, this.objetoJugador);
+        }
 
 
         // Colisión jugador-suelo
@@ -172,8 +184,11 @@ export default class EscenaJuego extends Phaser.Scene {
         );
     
         // Crear el premio encima de la plataforma más alta
-        this.premioTiempo = new PremioTiempo(this, plataformaMasAlta.x, plataformaMasAlta.y - 90); // Ajustar la posición del premio
-        this.premioTiempo.setScale(0.20); // escala de el premio para variar el tamanio  
+        const altoPantalla = this.scale.height;
+        const offsetVertical = altoPantalla * 0.08; // 8% del alto de pantalla
+        
+        this.premioTiempo = new PremioTiempo(this, plataformaMasAlta.x, plataformaMasAlta.y - offsetVertical);
+        
 
 
           
@@ -194,17 +209,22 @@ export default class EscenaJuego extends Phaser.Scene {
 
 
             // Grupo de bots con preUpdate automático
-        this.bots = this.physics.add.group({ runChildUpdate: true });
+            this.bots = this.physics.add.group({ runChildUpdate: true });
 
-            // Creacion algunos bots en posiciones fijas
-        const botPositions = [
-            { x: 600, y: 500 },
-            { x: 1200, y: 400 }
+            // Creacion algunos bots en posiciones relativas en relacion al tamaño de la pantalla
+            const anchoPantalla = this.scale.width;
+            // const altoPantalla = this.scale.height;
+            
+            const botCoordsRelativas = [
+                { x: 0.6, y: 0.75 },
+                { x: 1.2, y: 0.6 }
             ];
-            botPositions.forEach(pos => {
-            const bot = new Bot(this, pos.x, pos.y);
-            this.bots.add(bot);
+            
+            botCoordsRelativas.forEach(coord => {
+                const bot = new Bot(this, anchoPantalla * coord.x, altoPantalla * coord.y);
+                this.bots.add(bot);
             });
+            
 
             // colision entre los bots
 
@@ -263,25 +283,20 @@ export default class EscenaJuego extends Phaser.Scene {
             }
             );
 
-            // (Opcional)  Colisión bala contrabot para que jugador pueda eliminarlos
+            // colision bala contrabot para que jugador pueda eliminarlos
             this.physics.add.collider(
-            this.objetoBalas.grupoBalas,
-            this.bots,
-            (bala, bot) => {
-                bala.destroy();
-
-                this.tweens.add({
-                    targets: bot,
-                    alpha: 0,
-                    scale: 2,
-                    duration: 300,
-                    ease: 'Back.easeIn',
-                    onComplete: () => {
-                        bot.destroy();
-                    }
-                });
-            }
-        );
+                this.objetoBalas.grupoBalas,
+                this.bots,
+                (bala, bot) => {
+                  if (!bala.active || !bot.active) return;
+              
+                  const danio = bala.damage ?? 0.2; // Puedes usar daño personalizado o fijo
+                  bala.destroy();
+                  bot.recibirDanio(danio);
+                }
+              );
+              
+            
 
         
 
@@ -317,8 +332,9 @@ export default class EscenaJuego extends Phaser.Scene {
             if (!bala.active || !premioPuntos.active) return;
 
             // se desactiva la física para evitar choques múltiples
-            if (bala.body) bala.body.enable = false;
-            if (premioPuntos.body) premioPuntos.body.enable = false;
+            if (bala.body && bala.body.enable) bala.body.enable = false;
+            if (premioPuntos.body && premioPuntos.body.enable) premioPuntos.body.enable = false;
+            
 
             // se asigna puntos segun el tipo de obstaculo
             let puntos = (premioPuntos.texture.key === 'premioPuntos1') ? 10 : 20;
@@ -362,6 +378,8 @@ export default class EscenaJuego extends Phaser.Scene {
 
     // Se llama en cada frame para actualizar la lógica
     update() {
+        if (this.juegoFinalizado) return; // Detiene TODA lógica de juego
+        
         this.objetoJugador.actualizar();         
         this.objetoFondo.actualizar(this.cameras.main.scrollX);
         this.objetoPremioPuntos.actualizar();
@@ -385,32 +403,86 @@ export default class EscenaJuego extends Phaser.Scene {
         }
     }
 
-    finalizarJuego() {
-        // Detenemos el temporizador
+    detenerTodo() {
+        // Desactivar lógica en update
+        this.juegoFinalizado = true;
+      
+        // Desactivar física y animaciones del jugador
+        this.objetoJugador.sprite.body.enable = false;
+        this.objetoJugador.sprite.anims.stop();
+        this.objetoJugador.sprite.setVelocity(0, 0);
+        this.objetoJugador.teclaDisparo.enabled = false;
+        Object.values(this.objetoJugador.cursores).forEach(t => t && (t.enabled = false));
+      
+        // Ocultar nombre y barra de vida
+        this.objetoJugador.nombreTexto?.destroy();
+        this.objetoJugador.barraSalud?.destroy();
+      
+        // Ocultar HUD
+        this.interfaz.textoPuntaje?.destroy();
+        this.interfaz.textoMeta?.destroy();
+        this.interfaz.textoTiempo?.destroy();
+      
+        // Bots
+        this.bots.getChildren().forEach(bot => {
+          bot.setVelocity(0, 0);
+          bot.body.enable = false;
+          bot.puedeDisparar = false;
+          bot.active = false;
+          bot.barraVida?.destroy();
+        });
+      
+        // Balas
+        this.objetoBalas.grupoBalas.children.each(bala => {
+          bala.setVelocity(0, 0);
+          bala.body.enable = false;
+          bala.active = false;
+        });
+      
+        // Barras de plataformas
+        this.plataformasAereas.getChildren().forEach(plataforma => {
+          plataforma.healthBar?.destroy();
+        });
+      
+        // Detener todo evento pendiente
+        this.time.clearPendingEvents();
+      
+        // Detener inputs generales y físicas
+        this.input.enabled = false;
+        this.physics.pause();
+      }
+      
+
+      finalizarJuego() {
         this.eventoTemporizador.remove(false);
     
-        let mensaje = (this.puntaje >= this.metaPuntaje) ? "¡Ganaste!" : "Perdiste";
-    
-        // Coordenadas centradas de la cámara
+        const gano = this.puntaje >= this.metaPuntaje;
         const centroX = this.cameras.main.width / 2;
         const centroY = this.cameras.main.height / 2;
     
-        // Texto fijo en pantalla
-        this.add.text(centroX, centroY, mensaje, {
-            font: "80px Arial",
-            fill: "#fff"
-        })
-        .setOrigin(0.5)
-        .setScrollFactor(0); // Para que no se mueva con la cámara
+        const keySprite = gano ? 'ganaste' : 'perdiste';
+        const textura = this.textures.get(keySprite).getSourceImage();
+        const anchoOriginal = textura.width;
     
-        // Pausamos física e inputs
-        this.physics.pause();
-        this.input.enabled = false;
+        const escala = (this.scale.width * 0.3) / anchoOriginal;
     
-        // Calcular el tiempo jugado
-        let tiempoJugado = 60 - this.tiempoRestante; // Tiempo total menos el tiempo restante
+        // Mostrar imagen final por encima de todo
+        const spriteResultado = this.add.image(centroX, centroY, keySprite)
+            .setOrigin(0.5)
+            .setScrollFactor(0)
+            .setScale(escala)
+            .setDepth(999); // Asegura que quede por encima de todo
     
-        // Enviar los datos como objeto JSON
+        // Reproducir sonido
+        this.sound.play(gano ? 'sonido_ganar' : 'sonido_perder');
+    
+        // Detener todo
+        this.detenerTodo();
+    
+        // Calcular tiempo jugado
+        const tiempoJugado = 60 - this.tiempoRestante;
+    
+        // Enviar datos al servidor
         const datos = {
             puntaje: this.puntaje,
             tiempo: tiempoJugado,
@@ -422,11 +494,10 @@ export default class EscenaJuego extends Phaser.Scene {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(datos) // Convierte el objeto JS a un objeto JSON
+            body: JSON.stringify(datos)
         })
-        .then(res => res.json()) // Convertimos la respuesta del servidor a JSON
+        .then(res => res.json())
         .then(respuesta => {
-            // Verificamos la respuesta del servidor
             if (respuesta.status === 'success') {
                 console.log("Puntaje guardado correctamente:", respuesta.message);
             } else {
@@ -437,5 +508,7 @@ export default class EscenaJuego extends Phaser.Scene {
             console.error("Error al enviar los datos:", error);
         });
     }
+    
+    
     
 }

@@ -9,12 +9,12 @@ export default class Jugador {
         // Velocidad de movimiento horizontal
         this.velocidad = this.escena.scale.width * 0.10; // Ajustar el valor numerico para más o menos velocidad
 
-        // Potencia de salto (número negativo para ir hacia arriba)
-        // Potencia de salto (proporcional a la altura de pantalla)
+        // Potencia de salto negativo para ir hacia arriba
+        // Potencia de salto proporcional a la altura de pantalla
         this.fuerzaSalto = -(this.escena.scale.height * 0.55); // Ajustar el valor numerico para más o menos fuerza
+        
 
-
-        // Guardamos coords iniciales (por si se necesitan)
+        // Guarda coords iniciales (por si se necesitan)
         this.xInicial = xInicial;
         this.yInicial = yInicial;
 
@@ -23,12 +23,13 @@ export default class Jugador {
         this.salud = this.saludMaxima;
 
         this.barraSalud = null; // Inicializamos la barra de salud
+
+
     }
 
     // Crear el sprite del jugador y configurar inputs
     crear() {
-        // Creamos el sprite y aumentamos su tamaño para que se vea grande
-       // this.sprite = this.escena.physics.add.sprite(this.xInicial, this.yInicial, 'tomato_atlas').setScale(4); codigo inicial modificado
+        // se crea el sprite con su tamaño
 
         this.sprite = this.escena.physics.add.sprite(this.xInicial, this.yInicial, 'tomato_atlas');
 
@@ -36,14 +37,19 @@ export default class Jugador {
         this.escalaNormal   = altoDeseado / this.sprite.height;
         this.sprite.setScale(this.escalaNormal);
 
-        // Crear el texto con el nombre flotante
+        // se crea el texto con el nombre flotante
+
+        const altoPantalla = this.escena.scale.height;
+
+        const fontSize = Math.round(altoPantalla * 0.020); //ajustar tamanio de fuente
+
         this.nombreTexto = this.escena.add.text(this.sprite.x, this.sprite.y, 'Ing. Daro', {
-            font: '16px Arial',
+            font: `${fontSize}px Arial`,
             fill: '#ffffff',
             stroke: '#000000',
             strokeThickness: 3
         });
-        this.nombreTexto.setOrigin(0.5, 1); // Centrado horizontalmente y justo encima
+        this.nombreTexto.setOrigin(0.8, 1.5); // Centrado horizontalmente y encima
         this.nombreTexto.setDepth(10); // Asegura que quede arriba del sprite
 
 
@@ -72,17 +78,17 @@ export default class Jugador {
         this._dibujarBarraVida();
 
         // Ajustar la posición del jugador al cambiar el tamaño de la pantalla
-        this.escena.scale.on('resize', this.ajustarPosicion, this);
+       // this.escena.scale.on('resize', this.ajustarPosicion, this);
 
     }
-
+/*
         ajustarPosicion() {
             const centerX = this.escena.cameras.main.centerX;
             const centerY = this.escena.cameras.main.centerY;
             this.sprite.setPosition(centerX, centerY);
-            this.nombreTexto.setPosition(centerX, centerY - this.sprite.displayHeight / 2 - 10);  // Ajustar la posición del nombre
-        }
-        
+            this.nombreTexto.setPosition(centerX, centerY - this.sprite.displayHeight);  // Ajustar la posición del nombre
+        } 
+*/
     
 
     // Actualizamos posición, animaciones y disparo
@@ -124,15 +130,17 @@ export default class Jugador {
         }
 
         // Disparo con la tecla SPACE
-        if (Phaser.Input.Keyboard.JustDown(this.teclaDisparo)) {
+        if (this.teclaDisparo.isDown) {
             this.disparar();
+            this.teclaDisparo.isDown = false; // Evitar disparo continuo
         }
         //redibujo de la barra de vida con la pos actual del jugador
         this._dibujarBarraVida();
 
         // Actualizar la posición del nombre
-        this.nombreTexto.setPosition(this.sprite.x - 25, this.sprite.y - this.sprite.displayHeight / 2 - 50);
 
+        this._actualizarAlias();
+        
     }
 
     // Dispara una bala desde el jugador
@@ -151,6 +159,9 @@ export default class Jugador {
     recibirDanio(cantidad) {
         this.salud -= cantidad;
         if (this.salud < 0) this.salud = 0;
+
+        this._mostrarDanio(cantidad); // muestra texto de daño
+
         this._dibujarBarraVida(); // Actualizamos la barra de vida
         
         
@@ -158,20 +169,70 @@ export default class Jugador {
             this._morir();
         }
     }
+    _mostrarDanio(cantidad) {
 
-    _dibujarBarraVida() {
-        const ancho = 60;
-        const alto = 6;
-        const x = this.sprite.x - ancho / 2 -25;
-        const y = this.sprite.y - this.sprite.displayHeight / 2 - 45;
-
-        this.barraSalud.clear();
-        this.barraSalud.fillStyle(0x555555, 0.3);
-        this.barraSalud.fillRect(x, y, ancho, alto);
-        this.barraSalud.fillStyle(0xff0000, 0.8);
-        this.barraSalud.fillRect(x, y, ancho * (this.salud / this.saludMaxima), alto);       
+        const altoPantalla = this.escena.scale.height;
+        const fontSize = Math.round(altoPantalla * 0.07); // 7% del alto de pantalla
         
+        const texto = this.escena.add.text(this.sprite.x, this.sprite.y - this.sprite.displayHeight / 2, `-${cantidad}`, {
+            font: `${fontSize}px Arial`,
+            fill: '#ff0000',
+            stroke: '#000000',
+            strokeThickness: 3
+        }).setOrigin(0.5).setDepth(10);
+        
+        // Sonido al recibir daño
+        this.escena.sound.play('sonido_danio', { volume: 1 });
+        
+        this.escena.tweens.add({
+            targets: texto,
+            x: { from: texto.x - 5, to: texto.x + 5 },
+            duration: 80,
+            yoyo: true,
+            repeat: 2,
+            ease: 'Sine.easeInOut',
+            onComplete: () => {
+              // 🔼 Movimiento hacia arriba + fade después del shake
+              this.escena.tweens.add({
+                targets: texto,
+                y: texto.y - 30,
+                alpha: 0,
+                duration: 1000,
+                ease: 'Power1',
+                onComplete: () => texto.destroy()
+              });
+            }
+          });
+          
     }
+
+    _actualizarAlias() {
+        const offsetY = this.sprite.displayHeight; // Justo encima del sprite
+        this.nombreTexto.setPosition(this.sprite.x, this.sprite.y - offsetY);
+      }
+      
+
+
+      _dibujarBarraVida() {
+        const anchoPantalla = this.escena.scale.width;
+        const altoPantalla = this.escena.scale.height;
+    
+        // Escala responsiva (ancho y alto de la barra)
+        const ancho = Math.round(anchoPantalla * 0.04); // % del ancho de pantalla
+        const alto  = Math.round(altoPantalla * 0.005); // % del alto de pantalla
+    
+        // Posición centrada sobre el sprite
+        const x = this.sprite.x - ancho / 1.15;
+        const y = this.sprite.y - this.sprite.displayHeight;
+    
+        // Dibujo
+        this.barraSalud.clear();
+        this.barraSalud.fillStyle(0x555555, 0.3); // Fondo gris transparente
+        this.barraSalud.fillRect(x, y, ancho, alto);
+        this.barraSalud.fillStyle(0xff0000, 0.8); // Vida roja
+        this.barraSalud.fillRect(x, y, ancho * (this.salud / this.saludMaxima), alto);
+    }
+    
     _morir() {
         // Detiene el juego si el jugador muere
         this.escena.finalizarJuego();
