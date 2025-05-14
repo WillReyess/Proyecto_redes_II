@@ -80,7 +80,7 @@ const pantallaPrevia = document.getElementById('pantalla-previa');
 
 // Función para redirigir a la ruleta
 function redirigirARuleta() {
-  window.location.href = 'index.php'; // cambiar
+  window.location.href = `${location.origin}/Proyecto_redes_II/views/wheel.html`;
 }
 
 // Btn pantalla completa solo funciona si no se ha salido aun
@@ -102,26 +102,13 @@ botonPantalla.addEventListener('click', () => {
 
 // Cambios al entrar o salir del fullscreen
 document.addEventListener('fullscreenchange', () => {
-  /*
   const enPantallaCompleta =
-    document.fullscreenElement ||
-    document.webkitFullscreenElement ||
-    document.msFullscreenElement;
+  document.fullscreenElement ||
+  document.webkitFullscreenElement ||
+  document.msFullscreenElement;
 
-   if (enPantallaCompleta) {
-    if (usuarioSalioDeFullscreen) {
-      // Evitamos volver a entrar al juego desde fullscreen
-      contenedorJuego.style.display = 'none';
-      pantallaPrevia.style.display = 'flex';
-
-      botonPantalla.innerText = 'Regresar a la ruleta 🎯';
-      botonPantalla.classList.add('redirigir');
-      botonPantalla.onclick = redirigirARuleta;
-
-      return;
-    } 
-      */
-
+  if (enPantallaCompleta) {
+    // Entraron a pantalla completa
     pantallaPrevia.style.display = 'none';
     contenedorJuego.style.display = 'block';
 
@@ -130,30 +117,24 @@ document.addEventListener('fullscreenchange', () => {
       juegoYaIniciado = true;
 
       setTimeout(() => {
-        game.scale.resize(innerWidth, innerHeight); 
+        game.scale.resize(innerWidth, innerHeight);
       }, 200);
     }
-
-   else {
-    // Usuario ha salido de fullscreen una vez (ya no podrá regresar)
+  } else {
+    // Salieron de pantalla completa
     if (juegoYaIniciado && !usuarioSalioDeFullscreen) {
       usuarioSalioDeFullscreen = true;
 
-      // Mostramos botón de redirigir desde ya
-      pantallaPrevia.style.display = 'flex';
-      contenedorJuego.style.display = 'none';
-
-      botonPantalla.innerText = 'Regresar a la ruleta 🎮🥵';
-      botonPantalla.classList.add('redirigir');
-      botonPantalla.classList.add('animado'); // estilo del boton , clase en gameStyle.css
-      botonPantalla.onclick = redirigirARuleta;
+      // Redirige a la ruleta si es la primera vez que salen
+      redirigirARuleta();
     } else {
-      // Usuario salió por segunda vez, o antes de iniciar
+      // Ya habían salido antes o no iniciaron el juego
       pantallaPrevia.style.display = 'flex';
       contenedorJuego.style.display = 'none';
     }
   }
 });
+
 
 
 

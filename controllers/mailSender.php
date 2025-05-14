@@ -32,13 +32,8 @@ function enviarCorreoDeVerificacion($emailUsuario, $nombreUsuario, $apellidoUsua
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-<<<<<<< HEAD
-        $mail->Username   = 'prueba.verif14@gmail.com';
-        $mail->Password   = 'xapv zidj ipoh jjqs'; //contraseña
-=======
         $mail->Username   = $_ENV['EMAIL_ADDRESS'];
         $mail->Password   = $_ENV['EMAIL_PASSWORD'];
->>>>>>> 93c48190e6ae415ca0f3074ba9900a3c308322ff
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
 

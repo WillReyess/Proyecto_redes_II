@@ -69,9 +69,9 @@ const valueGenerator = (angleValue) => {
 
       //redirigir al usuario a la página de juego con el valor como parámetro
       setTimeout(() => {
-        window.location.href = `http://${location.host}/Proyecto_redes_II/game.html?puntos=${i.value}`;
-
-      }, 3000);
+        sessionStorage.setItem("puntajeRuleta", i.value);
+        window.location.href = `http://${location.host}/Proyecto_redes_II/game.html`;
+      }, 3000); // Redirigir después de 3 segundos
       break;
     }
   }
