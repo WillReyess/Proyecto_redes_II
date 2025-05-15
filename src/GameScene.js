@@ -16,13 +16,16 @@ export default class EscenaJuego extends Phaser.Scene {
 
     // Recibimos la meta de puntaje desde la ruleta
     init() {
-        // Obtener los datos de los parámetros de la URL
         const puntos = sessionStorage.getItem("puntajeRuleta");
-    
-        // Usar el valor del parámetro para inicializar el puntaje
-        this.metaPuntaje = puntos || 1000;  // Si no se pasa el parámetro, usar un puntaje predeterminado de 1000
-    
-        console.log("Puntaje inicial: ", this.metaPuntaje); // Verificar que el valor se haya pasado correctamente
+
+        if (!puntos || isNaN(puntos)) {
+            alert("Debes girar la ruleta antes de jugar.");
+            window.location.href = `${location.origin}/Proyecto_redes_II/views/wheel.html`;
+            return;
+        }
+
+        this.metaPuntaje = parseInt(puntos);
+        console.log("Puntaje inicial: ", this.metaPuntaje);
     }
 
     // Carga de recursos antes de entrar a la escena
@@ -479,10 +482,14 @@ export default class EscenaJuego extends Phaser.Scene {
         this.detenerTodo();
 
         setTimeout(() => {
-            // Destruir el sprite de resultado después de 2 segundos
-            spriteResultado.destroy();
-            window.location.href = `http://${location.host}/Proyecto_redes_II/views/wheel.html`;
+            // Limpiar la sesión para evitar reuso del puntaje
+            sessionStorage.removeItem("puntajeRuleta");
 
+            // Destruir el sprite de resultado
+            spriteResultado.destroy();
+
+            // Redirigir al usuario a la ruleta
+            window.location.href = `${location.origin}/Proyecto_redes_II/views/wheel.php`;
         }, 3000);
 
         // Calcular tiempo jugado
@@ -495,7 +502,7 @@ export default class EscenaJuego extends Phaser.Scene {
         };
 
         // Se envían los datos al backend
-        fetch(`http://${location.host}/Proyecto_redes_II/controllers/guardar_puntaje.php`, {
+        fetch(`${location.origin}/Proyecto_redes_II/controllers/guardar_puntaje.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

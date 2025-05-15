@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../index.php?mensaje=acceso_denegado");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
   <head>
@@ -10,8 +18,11 @@
     />
     <!-- Stylesheet -->
     <link rel="stylesheet" href="../public/css/wheelStyle.css" />
+    <link rel="stylesheet" href="./public/css/messages.css">
+
   </head>
   <body>
+
     <img src="../assets/imagen_izquierda-removed.png" alt="izquierda" class="izquierda"/>
 
     <div class="wrapper">
@@ -40,5 +51,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.1.0/chartjs-plugin-datalabels.min.js"></script>
     <script src="../public/js/wheelScript.js"></script>
+    <script src="./public/js/formulario_scripts.js"></script>
+
   </body>
 </html>

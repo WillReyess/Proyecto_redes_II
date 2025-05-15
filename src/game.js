@@ -80,7 +80,7 @@ const pantallaPrevia = document.getElementById('pantalla-previa');
 
 // Función para redirigir a la ruleta
 function redirigirARuleta() {
-  window.location.href = `${location.origin}/Proyecto_redes_II/views/wheel.html`;
+  window.location.href = `${location.origin}/Proyecto_redes_II/views/wheel.php`;
 }
 
 // Btn pantalla completa solo funciona si no se ha salido aun

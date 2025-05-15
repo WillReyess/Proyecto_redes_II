@@ -1,4 +1,4 @@
-fetch(`http://${location.host}/Proyecto_redes_II/controllers/guardar_puntaje.php`, {
+fetch(`${location.origin}/Proyecto_redes_II/controllers/guardar_puntaje.php`, {
     method: 'POST',
     body: JSON.stringify({
         puntaje: 100,  

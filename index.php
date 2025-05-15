@@ -23,6 +23,7 @@
             'contrasenas_no_coinciden' => ['Las contraseñas no coinciden. Intenta de nuevo.', 'error'],
             'Usuario_no_encontrado' => ['No pudimos encontrar tu cuenta. ¡Por favor, regístrate para continuar!', 'error'],
             'Usuario_no_verificado' => ['Tu cuenta está pendiente de verificación. Por favor, activa tu cuenta para acceder', 'error'],
+            'acceso_denegado' => ['Acceso denegado. Por favor, inicia sesión para continuar.', 'error'],
         ];
 
         $mensajeKey = $_GET['mensaje'];
@@ -132,5 +133,6 @@
 
     <script src="./public/js/loginScript.js"></script>
     <script src="./public/js/formulario_scripts.js"></script>
+    
 </body>
 </html>
