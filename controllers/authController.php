@@ -217,7 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->execute();
 
                 if ($stmt->affected_rows > 0) {
-                    header("Location: ../views/wheel.php");
+                    header("Location: ../index.php?mensaje=cuenta_activada");
                     exit();
                 } else {
                     header("Location: ../views/verification.php?mensaje=error_activar_cuenta");

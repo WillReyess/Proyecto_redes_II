@@ -29,4 +29,14 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
+
+    const mensajeError = document.getElementById("mensaje-error");
+    const mensajeExito = document.getElementById("mensaje-exito");
+
+    if (mensajeError) {
+        aplicarDesvanecimiento(mensajeError);
+    }
+    if (mensajeExito) {
+        aplicarDesvanecimiento(mensajeExito);
+    }
 });
