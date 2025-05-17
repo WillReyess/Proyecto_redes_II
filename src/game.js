@@ -1,4 +1,5 @@
 import EscenaJuego from './GameScene.js';
+import LoadingScene from './LoadingScene.js';
 
 let game = null;
 
@@ -18,10 +19,10 @@ function iniciarJuego() {
       default: 'arcade',
       arcade: {
         gravity: { y: innerHeight * 1.0 }, // Gravedad en porcentaje de la altura de la pantalla
-        debug: false
+        debug: true
       }
     },
-    scene: [EscenaJuego],
+    scene: [LoadingScene,EscenaJuego],
     scale: {
       mode: Phaser.Scale.FIT,
       autoCenter: Phaser.Scale.CENTER_BOTH
@@ -118,7 +119,7 @@ document.addEventListener('fullscreenchange', () => {
 
       setTimeout(() => {
         game.scale.resize(innerWidth, innerHeight);
-      }, 200);
+      }, 200); 
     }
   } else {
     // Salieron de pantalla completa

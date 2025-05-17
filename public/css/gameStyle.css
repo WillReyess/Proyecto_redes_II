@@ -20,7 +20,7 @@ html, body {
   top: 0; left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('../../assets/fondo_juego0.jpg') no-repeat center center;
+  background: url('../../assets/fu.jpg') no-repeat center center;
   background-size: cover;
   z-index: -1;
 }
@@ -51,8 +51,6 @@ html, body {
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.8); /* fondo oscuro por si la imagen no carga */
 }
-
-
 
 
 /* Advertencia de orientación para móviles */

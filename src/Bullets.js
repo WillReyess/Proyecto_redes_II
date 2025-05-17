@@ -6,13 +6,13 @@ export default class Balas {
         // Grupo de balas
         this.grupoBalas = null;
     }
-
+/*
     // Carga de la imagen de la bala
     preCargar() {
         this.escena.load.image('bala1', './assets/bala2.png');
         
     }
-
+*/
     // Creación de grupo de balas
     crear() {
         this.grupoBalas = this.escena.physics.add.group();

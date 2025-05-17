@@ -11,13 +11,13 @@ export default class PremioPuntos {
         // Proxima posición en X donde aparece un premio
         this.siguientePosX = 800;
     }
-
+/*
     // Carga de sprites de premios
     preCargar() {
         this.escena.load.image('premioPuntos1', './assets/premioPuntos1.png');
         this.escena.load.image('premioPuntos2', './assets/premioPuntos2.png');
     }
-
+*/
     // Crear premios iniciales y configurar colisiones
     crear() {
         // Crea el grupo de premios
@@ -40,6 +40,7 @@ export default class PremioPuntos {
                 this
             );
         }
+        //this.inicializarCarro();  // inicializa el carro
     }
 
     // actualiza la posición del jugador para generar nuevos premios
@@ -56,7 +57,9 @@ export default class PremioPuntos {
                 this.verificarSiAsentado(premio);
             }
         });
-        
+          
+        //this.actualizarCarro(); // Lógica del carro
+      
         
     }
 
@@ -94,6 +97,7 @@ export default class PremioPuntos {
     crearPremioPuntos(xPos) {
         // se escoge al azar entre premioPuntos1 y premioPuntos2
         let tipo = Phaser.Math.Between(1, 2) === 1 ? 'premioPuntos1' : 'premioPuntos2';
+        //if (tipo === 'premioPuntos2') return; // solo se generan premiosPuntos1
         let premioPuntos = this.grupoPremiosPuntos.create(xPos, 0, tipo);
 
         premioPuntos.setBounce(0.4); // rebote moderado, puedes ajustar entre 0.3 y 0.6
@@ -109,7 +113,7 @@ export default class PremioPuntos {
         let yPos = this.obtenerPosicionVerticalAleatoria();
         premioPuntos.y = yPos;
 
-        // configuracion de las colisiones con el mundo (suelo y plataformas)
+        // configuracion de las colisiones con el mundo suelo y plataformas
         premioPuntos.body.setCollideWorldBounds(true);  //  que no se escape fuera del mundo
         this.escena.physics.add.collider(premioPuntos, 
             this.escena.objetoFondo.cuerpoSuelo); 
@@ -206,4 +210,90 @@ export default class PremioPuntos {
         }
         return true;
     }
+ /*   inicializarCarro() {
+    this.carroActivo = false;
+    }
+
+    actualizarCarro() {
+        if (this.carroActivo && this.carro && this.carro.active) {
+            const jugador = this.escena.jugador?.sprite;
+            const distancia = Phaser.Math.Distance.Between(this.carro.x, this.carro.y, jugador.x, jugador.y);
+            const umbralDetener = this.escena.scale.width * 0.4;
+
+            if (distancia < umbralDetener) {
+                this.carro.setVelocityX(0); // Se detiene cerca del jugador
+            } else {
+                this.carro.setVelocityX(-this.escena.scale.width * 0.2); // Velocidad responsiva
+            }
+        }
+
+        // Si ya no está activo, podemos crear otro
+        if (!this.carroActivo && !this.carro?.active) {
+            this._generarCarro();
+        }
+    }
+
+    _generarCarro() {
+        const camara = this.escena.cameras.main;
+        const xPos = camara.scrollX + camara.width + 100;
+
+        const sueloY = this.escena.objetoFondo.cuerpoSuelo.y;
+        const sueloAlto = this.escena.objetoFondo.cuerpoSuelo.height;
+        const ySuelo = sueloY - sueloAlto / 2 - 5;
+
+        this.carro = this.escena.physics.add.sprite(xPos, ySuelo, 'premioPuntos2');
+        this.carro.setDepth(10);
+        this.carro.setBounce(0);
+        this.carro.setCollideWorldBounds(false);
+
+        // DESACTIVAR GRAVEDAD de forma segura
+        this.carro.body.setAllowGravity(false);
+        this.carro.body.setImmovable(true);
+
+        // REASIGNAR POSICIÓN Y por seguridad
+        this.carro.setY(ySuelo);
+
+        // Escala y movimiento
+        this.ajustarEscala(this.carro);
+        this.carro.setVelocityX(-this.escena.scale.width * 0.2);
+
+
+        this.carroActivo = true;
+
+        // Colisiones
+        this.escena.physics.add.collider(this.carro, this.escena.objetoFondo.cuerpoSuelo);
+
+        this.escena.physics.add.overlap(
+            this.escena.jugador.sprite,
+            this.carro,
+            () => this._recogerCarro(),
+            null,
+            this
+        );
+
+        this.escena.physics.add.collider(
+            this.escena.objetoBalas.grupoBalas,
+            this.carro,
+            (bala, carro) => {
+                this.escena.objetoBalas.cuandoBalaChocaPremioPuntos(bala, carro);
+                this._recogerCarro();
+            },
+            null,
+            this
+        );
+    }
+
+    _recogerCarro() {
+        if (!this.carro || !this.carro.active) return;
+
+        this.carro.disableBody(true, true);
+        this.carro.destroy();
+        this.carroActivo = false;
+
+        const puntos = 20; // o 30 si quieres dar más por el carro
+        this.escena.agregarPuntaje(puntos);
+    }
+    */
+
 }
+
