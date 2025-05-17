@@ -26,7 +26,7 @@ var pieColors = [
 
 // Crear el gráfico de tipo "pie" (pastel)
 let myChart = new Chart(wheel, {
-  // Plugins para mostrar texto en el gráfico
+  
   plugins: [ChartDataLabels],
   type: "pie", // Tipo de gráfico: pastel
   data: {
@@ -37,15 +37,15 @@ let myChart = new Chart(wheel, {
     }],
   },
   options: {
-    responsive: true, // Hacer que el gráfico sea responsivo
-    animation: { duration: 0 }, // Desactivar la animación por defecto
+    responsive: true, 
+    animation: { duration: 0 }, 
     plugins: {
       tooltip: false, 
       legend: { display: false }, 
-      datalabels: { // Configuración de las etiquetas de los datos
-        color: "#ffffff", // Color de las etiquetas
-        formatter: (_, context) => context.chart.data.labels[context.dataIndex], // Mostrar los valores en las etiquetas
-        font: { size: 24 }, // Tamaño de fuente de las etiquetas
+      datalabels: { 
+        color: "#ffffff", 
+        formatter: (_, context) => context.chart.data.labels[context.dataIndex], 
+        font: { size: 24 }, 
       },
     },
   },
@@ -54,8 +54,8 @@ let myChart = new Chart(wheel, {
 // Función para obtener el ángulo medio de un segmento aleatorio
 const getMiddleAngle = () => {
   const randomIndex = Math.floor(Math.random() * rotationValues.length); // Obtener un índice aleatorio
-  const segment = rotationValues[randomIndex]; // Obtener el segmento correspondiente
-  const middleAngle = (segment.minDegree + segment.maxDegree) / 2; // Calcular el ángulo medio
+  const segment = rotationValues[randomIndex]; 
+  const middleAngle = (segment.minDegree + segment.maxDegree) / 2; 
   return middleAngle;
 };
 
@@ -70,7 +70,7 @@ const valueGenerator = (angleValue) => {
       //redirigir al usuario a la página de juego con el valor como parámetro
       setTimeout(() => {
         sessionStorage.setItem("puntajeRuleta", i.value);
-        window.location.href = `http://${location.host}/Proyecto_redes_II/game.html`;
+        window.location.href = `${location.origin}/Proyecto_redes_II/game.php`;
       }, 3000); // Redirigir después de 3 segundos
       break;
     }
@@ -99,17 +99,17 @@ spinBtn.addEventListener("click", () => {
     // Si la rotación supera los 360 grados, reiniciar
     if (myChart.options.rotation >= 360) {
       count += 1;
-      resultValue -= 5; // Reducir la velocidad de rotación
-      myChart.options.rotation = 0; // Resetear la rotación
+      resultValue -= 5; 
+      myChart.options.rotation = 0; 
     }
 
     // Usar un margen pequeño para la comparación (para detenerse suavemente)
     const tolerance = 2; 
     if (count > 15 && Math.abs(myChart.options.rotation - randomDegree) <= tolerance) {
-      valueGenerator(randomDegree); // Mostrar el valor correspondiente
-      clearInterval(rotationInterval); // Detener la animación
-      count = 0; // Resetear el contador
-      resultValue = 101; // Restaurar el valor de rotación inicial
+      valueGenerator(randomDegree); 
+      clearInterval(rotationInterval); 
+      count = 0;
+      resultValue = 101; 
     }
-  }, 10); // Intervalo de tiempo entre actualizaciones de la animación (en milisegundos)
+  }, 10);
 });

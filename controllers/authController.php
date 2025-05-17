@@ -39,14 +39,14 @@ class AuthController {
         // Inserción en la base de datos usando sentencia preparada
         $query = "INSERT INTO players (Nombre, Apellido, Correo, Password) VALUES (?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
-        $stmt->bind_param("ssss", $name, $lastName, $email, $password); // 'ssss' indica que son 4 parámetros de tipo string
+        $stmt->bind_param("ssss", $name, $lastName, $email, $password);
         $stmt->execute();
 
         $_SESSION['tipo_verificacion'] = 'registro'; // Tipo de verificación para manejar el flujo posterior
 
         if ($stmt->affected_rows > 0) {
             //se obtiene el ID del jugador recién registrado
-            $idJugador = $this->conn->insert_id; // Esto obtiene el ID generado automáticamente
+            $idJugador = $this->conn->insert_id; 
 
             // Guardamos los datos del usuario en la sesión para continuar el flujo
             $_SESSION['Correo'] = $email;
@@ -88,6 +88,7 @@ class AuthController {
         $result = $stmt->get_result();
         session_start();
 
+
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
 
@@ -101,7 +102,7 @@ class AuthController {
             if (password_verify($password, $user['Password'])) {
                 // Guardar la sesión con el ID del usuario
                 $_SESSION['user_id'] = $user['player_id'];
-                header("Location: ../views/wheel.html"); 
+                header("Location: ../views/wheel.php"); 
                 exit();
             } else {
                 header("Location: ../index.php?mensaje=contrasena_incorrecta");
@@ -216,7 +217,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->execute();
 
                 if ($stmt->affected_rows > 0) {
-                    header("Location: ../views/wheel.html");
+                    header("Location: ../index.php?mensaje=cuenta_activada");
                     exit();
                 } else {
                     header("Location: ../views/verification.php?mensaje=error_activar_cuenta");

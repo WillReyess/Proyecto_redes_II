@@ -18,6 +18,7 @@ require_once '../controllers/authController.php';
     $tipo_mensaje = '';
 
     if (isset($_GET['mensaje'])) {
+        // Array asociativo que mapea los valores de mensaje
         $mensajes = [
             'correo_reenviado_correctamente' => ['El correo de verificación ha sido reenviado correctamente.', 'exito'],
             'error_reenviar_codigo' => ['Error al reenviar el código de verificación. Por favor, inténtelo de nuevo.', 'error'],
@@ -27,6 +28,7 @@ require_once '../controllers/authController.php';
             'error_activar_cuenta' => ['Error al activar la cuenta. Por favor, inténtelo de nuevo.', 'error'],
             'codigo_incorrecto' => ['El código ingresado es incorrecto. Por favor, verifique e intente nuevamente.', 'error'],
         ];
+
         $mensajeKey = $_GET['mensaje'];
 
         if (isset($mensajes[$mensajeKey])) {
@@ -34,11 +36,13 @@ require_once '../controllers/authController.php';
         }
     }
     ?>
+
     <?php if ($mensaje): ?>
         <div id="mensaje-<?php echo $tipo_mensaje; ?>" class="alert-<?php echo $tipo_mensaje; ?>">
             <?php echo $mensaje; ?>
         </div>
     <?php endif; ?>
+    
     <div class="maincontainer">
         <form action="../controllers/authController.php" method="POST">
             <h1>Ingresar código </h1>

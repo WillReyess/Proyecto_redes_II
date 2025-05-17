@@ -15,8 +15,11 @@ export default class EscenaJuego extends Phaser.Scene {
 
     init() {
         const puntos = sessionStorage.getItem("puntajeRuleta");
-        this.metaPuntaje = puntos || 1000;
-        console.log("Puntaje inicial: ", this.metaPuntaje);
+    
+        // Usar el valor del parámetro para inicializar el puntaje
+        this.metaPuntaje = puntos || 1000;  // Si no se pasa el parámetro, usar un puntaje predeterminado de 1000
+    
+        console.log("Puntaje inicial: ", this.metaPuntaje); // Verificar que el valor se haya pasado correctamente
     }
 
     create() {
@@ -276,8 +279,10 @@ export default class EscenaJuego extends Phaser.Scene {
         this.detenerTodo();
 
         setTimeout(() => {
+            // Destruir el sprite de resultado después de 2 segundos
             spriteResultado.destroy();
             window.location.href = `http://${location.host}/Proyecto_redes_II/views/wheel.html`;
+
         }, 3000);
 
         const tiempoJugado = 60 - this.tiempoRestante;
@@ -286,6 +291,7 @@ export default class EscenaJuego extends Phaser.Scene {
             tiempo: tiempoJugado,
         };
 
+        // Se envían los datos al backend
         fetch(`http://${location.host}/Proyecto_redes_II/controllers/guardar_puntaje.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
