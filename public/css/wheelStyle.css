@@ -1,147 +1,148 @@
-@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
 
-/* Estilos generales para todos los elementos */
+/* Estilos generales */
 * {
-    padding: 0; 
-    margin: 0; 
-    box-sizing: border-box; 
-    font-family: "Poppins", sans-serif; /* Establece la fuente predeterminada para el contenido */
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
-/* Estilos para el body (cuerpo de la página) */
+/* Body */
 body {
-    margin: 0; 
-    padding: 0; 
-    background: linear-gradient(to right, #100375, #744704); /* Fondo degradado de izquierda a derecha */
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    height: 100vh; 
-    overflow: hidden; 
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #0a014f, #4a2c02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
-/* Contenedor principal de la rueda */
+/* Contenedor principal */
 .wrapper {
-    width: 500px; 
-    background-color: #624042;
-    position: absolute; 
-    transform: translate(-50%, -50%); 
-    top: 50%; 
-    left: 50%; 
-    padding: 3em; 
-    border-radius: 1em; 
+    width: 70vw;
+    max-width: 300px;
+    min-width: 220px;
+    background-color: #7a4f52;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    border-radius: 1em;
+    z-index: 5;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
-/* Contenedor de la rueda (gráfico circular) */
+/* Contenedor de la ruleta */
 .container {
-    width: 500px; 
-    background-color: #ccc; 
-    border-radius: 50%; 
-    border: 15px solid rgb(152, 152, 239);
-    position: relative; 
-    transition: 2s; 
-    margin-left: -37px; 
-}
-
-/* Animación de rotación para la rueda */
-@keyframes rotate {
-    100% {
-        transform: rotate(360deg); /* Rotación completa en 360 grados */
-    }
-}
-
-/* Estilo para el botón de giro */
-#spin-btn {
-    position: absolute; 
-    transform: translate(-50%, -50%); 
-    top: 50%; 
-    left: 50%; 
-    height: 26%; 
-    width: 26%; 
+    width: 100%;
+    max-width: 240px;
+    aspect-ratio: 1/1; /* Mantiene la proporción de 1:1 */
+    background-color: #ccc;
     border-radius: 50%;
-    cursor: pointer; 
-    border: 0; 
-    background: radial-gradient(#fdcf3b 50%, #d88a40 85%); 
-    color: #c66e16; 
-    text-transform: uppercase; 
-    font-size: 1.8em;
-    letter-spacing: 0.1em; 
-    font-weight: 600; 
+    border: 6px solid rgb(152, 152, 239);
+    position: relative;
+    transition: transform 2s; /* Animación de giro */
+    margin: 0 auto;
 }
 
-/* Estilo para la imagen (icono dentro del contenedor) */
-img {
-    position: absolute; 
-    width: 8em; 
-    top: 49%; 
-    right: -8%; 
+/* Botón de giro */
+#spin-btn {
+    position: absolute; /* Centrado en la ruleta */
+    top: 50%; /* Centrado verticalmente */
+    left: 50%; /* Centrado horizontalmente */
+    transform: translate(-50%, -50%); /* Centrado */
+    width: 25%;
+    height: 25%;
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 0;
+    background: radial-gradient(#fdcf3b 50%, #d88a40 85%);
+    color: #c66e16;
+    text-transform: uppercase;
+    font-size: clamp(1em, 4vw, 1.3em); /* Tamaño de fuente adaptable */
+    letter-spacing: 0.1em; /* Espaciado de letras */
+    font-weight: 600; /* Peso de la fuente */
 }
 
-/* Estilo para el área donde se muestra el valor final */
+/* Flecha */
+img:not(.izquierda, .derecha) {
+    position: absolute; /* Centrado en la ruleta */
+    width: 16%;
+    max-width: 55px;
+    top: 50%;
+    right: -10%;
+    transform: translateY(-50%); /* Centrado verticalmente */
+    z-index: 10; /* Asegura que la flecha esté por encima de la ruleta */
+}
+
+/* Área de valor final */
 #final-value {
-    font-size: 1.5em; 
+    font-size: clamp(1em, 3vw, 1.3em);
     text-align: center;
-    margin-top: 1.5em; 
-    color: #f8f0f0; 
-    font-weight: 500; 
+    margin-top: 1.2em;
+    color: #f8f0f0;
+    font-weight: 500;
 }
-/*estilo para las image derecha*/
+
+/* Imágenes laterales */
+.izquierda,
 .derecha {
-    position: absolute; 
-    right: 0;
-    height: 75%;
+    position: absolute; /* Posicionadas a la izquierda y derecha */
+    top: 8%;
     width: 15%;
-    top: 0;
-    margin-top: 10%;
-    margin-right: 10%;
+    max-width: 120px;
+    height: auto;
+    z-index: 3; /* Asegura que las imágenes estén por encima de la ruleta */
+    display: block;
 }
-/*estilo para la imagen izquierda*/
+
 .izquierda {
-    position: absolute; 
-    left: 0;
-    height: 75%;
-    width: 15%;
-    top: 0;
-    margin-top: 10%;
-    margin-left: 10%;
+    left: 40px; /* Ajusta la posición a la izquierda */
 }
 
-/*estilo para el manu lateral*/
+.derecha {
+    right: 5%; /* Ajusta la posición a la derecha */
+}
 
+/* Menú lateral */
+.menu {
+    position: fixed; /* Fijo en la pantalla */
+    top: 0; /* Desde la parte superior */
+    left: 0; /* Desde la izquierda */
+    width: 60px;   
+    height: 100%;
+    transition: width 0.3s;
+    overflow-y: auto; /* Desplazamiento vertical */
+    overflow-x: hidden; /* Sin desplazamiento horizontal */
+    background: #ffffff12;
+    backdrop-filter: blur(5px); /* Desenfoque de fondo */
+    box-shadow: 5px 0px 6px 0px #00000014;
+    padding: 0.8em; /* Espacio interno */
+    scrollbar-width: none;  /* En Firefox no se vera la barra */
+    -ms-overflow-style: none; /* En Internet Explorer and Edge no se vera la barra */
+    z-index: 15; /* Asegura que el menú esté por encima de otros elementos */
+}
+/* Estilo del contenido del menú */
 .menu::-webkit-scrollbar {
     display: none;
 }
 
-.menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 85px;
-    height: 100%;
-    transition: .3s;
-    scrollbar-width: none;
-    overflow: hidden scroll;
-    background: #ffffff12;
-    -ms-overflow-style: none;
-    padding: 20px 20px 20px 0;
-    backdrop-filter: blur(5px);
-    box-shadow: 8px 0px 9px 0px #00000014;
-}
-
 .menu:hover {
-    width: 260px;
-}
-
-.menu:hover li span:nth-child(2) {
-    display: block;
+    width: 180px;
 }
 
 .menu-content li {
-    list-style: none;
-    border-radius: 0px 50px 50px 0;
-    transition: .3s;
-    margin-bottom: 20px;
-    padding-left: 20px;
+    list-style: none; 
+    border-radius: 0 40px 40px 0;
+    transition: background 0.3s;
+    margin-bottom: 0.8em;
+    padding-left: 0.8em;
 }
 
 .menu-content li:hover {
@@ -150,6 +151,11 @@ img {
 
 .menu-content li span:nth-child(2) {
     display: none;
+    font-size: clamp(0.8em, 2.5vw, 1em);
+}
+
+.menu:hover li span:nth-child(2) {
+    display: block;
 }
 
 a {
@@ -157,24 +163,220 @@ a {
     color: rgb(213, 213, 213);
     display: flex;
     align-items: center;
-    font-family: 'calibri';
+    font-family: 'Calibri', sans-serif;
 }
 
 .material-symbols-outlined {
-    padding: 10px;
-    font-size: 25px;
-    margin-right: 10px;
+    padding: 6px;
+    font-size: 18px;
+    margin-right: 6px;
     border-radius: 50%;
     background: #0c0c0c;
 }
-/* Estilos para pantallas pequeñas (como teléfonos móviles) */
-@media screen and (max-width: 768px) {
+
+/* Media Queries */
+
+/* Pantallas muy pequeñas (celulares <480px) */
+@media screen and (max-width: 480px) {
     .wrapper {
-        font-size: 12px; /* Reduce el tamaño de la fuente en pantallas pequeñas */
+        width: 60vw;
+        max-width: 240px;
+        padding: 1.5em;
+        margin-left: 0;
     }
 
-    /* Ajusta la posición de la imagen en pantallas pequeñas */
-    img {
-        right: -5%; /* Ajuste de la posición de la imagen */
+    .container {
+        max-width: 220px;
+        border-width: 5px;
+    }
+
+    #spin-btn {
+        min-width: 45px;
+        min-height: 45px;
+        font-size: 0.9em;
+    }
+
+    img:not(.izquierda, .derecha) {
+        width: 12%;
+        max-width: 50px;
+        right: -12%;
+    }
+
+    .izquierda,
+    .derecha {
+        width: 15%;
+        max-width: 120px;
+        top: 8%;
+    }
+
+    .izquierda {
+        left: 40px;
+    }
+
+    .derecha {
+        right: 5%;
+    }
+
+    .menu {
+        width: 50px;
+    }
+
+    .menu:hover {
+        width: 150px;
+    }
+}
+
+/* Pantallas pequeñas (celulares 480px-768px) */
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .wrapper {
+        max-width: 200px;
+        padding: 0em;
+        margin-left: 0;
+    }
+
+    .container {
+        max-width: 200px;
+    }
+
+    .izquierda,
+    .derecha {
+        width: 14%;
+        max-width: 130px;
+        top: 30%;
+    }
+
+    .izquierda {
+        left: 50px;
+    }
+
+    .menu {
+        width: 60px;
+    }
+
+    .menu:hover {
+        width: 180px;
+    }
+}
+
+/* Pantallas medianas (tablets 769px-1024px) */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .wrapper {
+        max-width: 280px;
+        padding: 1em;
+        margin-left: 0;
+    }
+
+    .container {
+        max-width: 350px;
+        border-width: 7px;
+    }
+
+    .izquierda,
+    .derecha {
+        width: 25%;
+        max-width: 180px;
+        top: 30%;
+    }
+
+    .izquierda {
+        left: 60px;
+    }
+
+    .menu {
+        width: 70px;
+    }
+
+    .menu:hover {
+        width: 200px;
+    }
+}
+
+/* Pantallas grandes (>1024px) */
+@media screen and (min-width: 1025px) {
+    .wrapper {
+        max-width: 600px; /* Aumentado */
+        padding: 3em; /* Más espacio */
+        margin-left: 0;
+    }
+
+    .container {
+        max-width: 700px; /* Aumentado */
+        border-width: 5px;
+    }
+
+    #spin-btn {
+        min-width: 80px; /* Aumentado */
+        min-height: 80px;
+        font-size: 1.8em; /* Aumentado */
+    }
+
+    img:not(.izquierda, .derecha) {
+        width: 14%;
+        max-width: 90px; /* Aumentado */
+        right: -8%;
+    }
+
+    #final-value {
+        font-size: 1.8em; /* Aumentado */
+        margin-top: 1.5em;
+    }
+
+    .izquierda,
+    .derecha {
+        width: 22%;
+        max-width: 600px; /* Aumentado */
+        top: 25%;
+    }
+
+    .izquierda {
+        left: 80px;
+    }
+
+    .derecha {
+        right: 5%;
+    }
+
+    .menu {
+        width: 80px;
+    }
+
+    .menu:hover {
+        width: 220px;
+    }
+}
+
+/* Pantallas ultra anchas (>1920px) */
+@media screen and (min-width: 1921px) {
+    .wrapper {
+        max-width: 800px; /* Aumentado para 4K */
+        padding: 3.5em;
+    }
+
+    .container {
+        max-width: 700px; /* Aumentado para 4K */
+    }
+
+    #spin-btn {
+        min-width: 90px;
+        min-height: 90px;
+        font-size: 2em;
+    }
+
+    img:not(.izquierda, .derecha) {
+        max-width: 100px;
+    }
+
+    #final-value {
+        font-size: 2em;
+        margin-top: 2em;
+    }
+
+    .izquierda,
+    .derecha {
+        max-width: 300px; /* Aumentado para 4K */
+    }
+
+    .izquierda {
+        left: 100px;
     }
 }

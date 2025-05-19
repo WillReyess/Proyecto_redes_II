@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./public/css/messages.css">
 </head>
 <body>
+
     <!-- Mensaje de confirmacion del cambio de contraseña-->
     <?php
     $mensaje = '';
@@ -40,7 +41,7 @@
             <?php echo $mensaje; ?>
         </div>
     <?php endif; ?>
-
+    
     <div class="container" id="main">
         
         <!-- Formulario de registro -->
