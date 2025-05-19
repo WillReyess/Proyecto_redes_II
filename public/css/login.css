@@ -20,9 +20,9 @@ body {
 /* Contenedor principal para el formulario */
 .container {
     position: relative; 
-    width: 768px; 
-    max-width: 100%; 
-    min-height: 480px; 
+    width: 80%; 
+    max-width: 90%; 
+    min-height: 500px; 
     background: #fff; 
     border-radius: 10px; 
     overflow: hidden; 
@@ -307,3 +307,32 @@ button:active {
 }
 /*mensaje de confirmacion de cambio de contraseña*/
 
+/*medias queries para pantallas pequeñas*/
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        min-height: auto;
+        flex-direction: column;
+    }
+
+    .sign-in, .sign-up, .overlay-container, .overlay-left, .overlay-right {
+        width: 100%;
+        position: relative;
+        transform: none !important;
+        opacity: 1 !important;
+        z-index: auto !important;
+        margin: 0;
+    }
+
+    .overlay {
+        display: none;
+    }
+
+    .container.right-panel-active .sign-up {
+        display: block;
+    }
+
+    .container.right-panel-active .sign-in {
+        display: none;
+    }
+}
